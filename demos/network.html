@@ -364,7 +364,13 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
 		})
 		.attr("opacity", .9)
 		.attr("filter", "url(#dropshadow)")
-		.attr("width", function(d) { return calculateSizeBasedOnRating(d.averageStars); }) //7
+		.attr("width", function(d) { return calculateSizeBasedOnRating(d.averageStars); }) 
+		.attr('height', function (d) { return calculateSizeBasedOnRating(d.averageStars); })
+		.attr('x', function (d) { return d.x })
+		.attr('y', function (d) { return d.y })
+		
+		
+		//7
 		//.attr("x", 100)
 	/*.append("circle")
       .attr("r", function(d) { return d.averageStars * 1.5; })
