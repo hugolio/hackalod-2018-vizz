@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Network demo</title>
+		<script type="text/javascript" src="d3/d3.js"></script>
+		<script type="text/javascript" src="js/helper.js"></script>
+		<script type="text/javascript" src="https://www.google.com/books/jsapi.js"></script>
+		<script type="text/javascript">google.books.load();</script>
+		<link rel="stylesheet" href="css/interface.css">
+		<style type="text/css">
+
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+			
+
+		</style>
+	</head>
+	<body>
+	
+	
+	<div id="chartid"></div>
+<div id="loading_status">
+		<h1>Now loading...</h1>
+	</div>
+	
+	<div id="tooltip" class="hidden">
+		<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="title" class="booktitle" width="100"><h1>Label Heading</h1></span>
+		</div>
+			
+		<div id="descr">
+			<img class="bookcover" id="bookcover"/>
+			<span id="bookdescr" class="bookdescription">Description</span>
+		</div>
+		
+		<div id="rating">
+			<span id="bookrat" class="bookrating">Description</span>
+		</div>
+
+		<div id="avail">
+			<span id="bookavail" class="availability">Description</span>
+		</div>
+			
+		<div id="actions">
+			<!--<img id="savebutton" class="savebutton" src="gui/saveButton.png">-->
+			<span id="previewbutton" class="button">Preview</span>
+			<span id="getbutton" class="button">Get this book</span>
+			<span id="savebutton" class="button">&#128077; Like</span>
+		</div>
+	</div>
+	
+	<div id="savedbooks" class="hidden">	
+		<span id="title" class="savedbookstitle"><p>Books you liked:</p></span>
+			<svg id="savedbookviewer" />
+	</div>
+	
+	<div id="getbookwindow" class="hidden">
+		<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="locatebooktitle" class="booktitle" width="100"><h1>Get this book</h1></span>
+		</div>
+		<div id="bookdetails">
+			<h3>Author and title</h3>
+		</div>
+		<div>
+			<h2>Library map</h2>
+		</div>
+		<div id="map">
+			<img class="bookmap" id="bookloc" src="" width="1000"  />
+		</div>
+		<div>
+			<p>Contact the library desk if you have trouble locating the book.</p>
+		</div>
+		<div id="actions">
+			<span id="" class="button">Send a link to my phone</span>
+		</div>
+	</div>
+	
+	<div id="previewbookwindow" style="visibility:hidden">
+    	<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="locatebooktitle" class="booktitle" width="100"><h1>Preview this book</h1></span>
+		</div>
+		<div id="previewbookcanvas" />
+	</div>	
+	
+	<script type="text/javascript">
+
+			var NUMBER_OF_ELEMENTS = 85;
+			var MINIMUM_NUMBER_OF_STARS = 0;
+			
+			//always show books saved in earlier steps (helper.js)
+			showSavedBooks();
+
+			//read DDC classes/labels from json file (helper.js)
+			readDDCClasses();
+			
+			//get ddc classification startingpoint [optional]
+			var DDC_FILTER = getParameterByName('ddcfilter');
+
+			//get input file from browser parameter			
+			var inputFile = getParameterByName('file');
+			if (inputFile==null) {
+				inputFile = "data/urealPensum.json";
+			}
+			//Read json, create book info object (helper.js)
+			initiateVisualization(inputFile, NUMBER_OF_ELEMENTS, MINIMUM_NUMBER_OF_STARS);
+
+			function initiateVisualization(inputFile, numElements, minStars) {	
+				//in helper.js
+				
+					readBookJSON(inputFile, numElements, minStars, function(d) {
+						//callback
+						//console.log(d);
+						createRelationsBasedOnDDC(d);
+					});	
+				
+			}
+			
+			var relationsArray = {
+					"nodes" : [],
+					"links" : []
+			};
+			
+			
+			function exists(node) {
+				for(var i=0; i<relationsArray.nodes.length; i++) {
+					if(parseInt(relationsArray.nodes[i].id) === node) {
+						return true;
+					}
+				}
+				return false;
+			}
+			
+			function getImageForIngredient(ingr,arr) {
+				var img;
+				for(var i=0;i<arr.length;i++) {
+					//console.log(arr);
+					//console.log(ingr.trim()+"=???="+arr[i].ingredient.trim());
+					if(ingr.trim()==arr[i].ingredient.trim()) {
+						//console.log("MATCH");
+						img=arr[i].image;
+					}
+				}
+				return img;
+			}
+			
+			function createRelationsBasedOnDDC(bookArr) {
+					for(var i=0; i<bookArr.length; i++) {
+						//check  value from this level
+						var counter = 0;
+						for(var j=0; j<bookArr.length;j++) {
+
+							console.log("ddcArr");
+							//var ddcArr1 = bookArr[i].classifications; //getDDC(bookArr[i].classifications);
+							//var ddcArr1 = shortenArray(bookArr[i].classifications, 1);
+							var ddcArr1 = shortenArray(bookArr[i].alsoBought, 4);
+							//ddcArr1[0] = bookArr[i].classification; //[bookArr[i].alsoBought[0]];//bookArr[i].alsoBought; //==ingredArr
+							//console.log(ddcArr1);
+						    //var ddcArr2 = bookArr[j].classifications; //getDDC(bookArr[j].classifications);
+							//var ddcArr2 = [];
+							//var ddcArr2 = shortenArray(bookArr[j].classifications, 1);
+							var ddcArr2 = shortenArray(bookArr[j].alsoBought, 4);
+							//ddcArr2[0] = bookArr[j].classification; 
+							//[bookArr[j].alsoBought[0]];//bookArr[j].alsoBought;
+						    //console.log(ddcArr2);
+								
+							if(ddcArr1!= null && ddcArr2 != null && ddcArr1.length>0 && ddcArr2.length>0 ) {// && typeof ddcArr1[0].number != 'undefined' && typeof ddcArr2[0].number != 'undefined' ) {
+							
+							for(var k=0; k<ddcArr1.length; k++) {
+								for(var l=0; l<ddcArr2.length; l++) {
+									//match based on first 3 characters to widen # matches, prevent duplicates
+
+									if(ddcArr1[k].trim() === ddcArr2[l].trim() && bookArr[i].title !== bookArr[j].title && getImageForIngredient(ddcArr1[k].trim(),bookArr[i].ingredientImages)!=null) {
+											
+											relationsArray.links.push({"source": parseInt(bookArr[i].isbn), "target": parseInt(bookArr[j].isbn) });
+										
+											if(!exists(parseInt(bookArr[i].isbn))) { 
+												relationsArray.nodes.push(bookArr[i])
+												relationsArray.nodes[relationsArray.nodes.length-1].connectingProperty = ddcArr1[k].trim();
+												//change cover img to one that is the connectingproperty
+												relationsArray.nodes[relationsArray.nodes.length-1].coverImage = getImageForIngredient(ddcArr1[k].trim(),bookArr[i].ingredientImages);
+												
+												//,{"test":"test"});
+												//{"id": parseInt(bookArr[i].isbn), "title" : bookArr[i].title, "classification" : getConcatStringFromDDCArr(ddcArr1), "averageStars" : bookArr[i].averageStars, "coverImage" : bookArr[i].coverImage, "description" : bookArr[i].description, "isbn" : bookArr[i].isbn, "mapUrl" : bookArr[i].mapUrl, "mmsID" : bookArr[i].mmsID, "author" : bookArr[i].author, "year" : bookArr[i].year});
+											}
+											if(!exists(parseInt(bookArr[j].isbn))) {
+												relationsArray.nodes.push(bookArr[j]);
+												relationsArray.nodes[relationsArray.nodes.length-1].connectingProperty = ddcArr1[k].trim();
+												//change cover img to one that is the connectingproperty
+												relationsArray.nodes[relationsArray.nodes.length-1].coverImage = getImageForIngredient(ddcArr1[k].trim(),bookArr[j].ingredientImages);
+												//{"id": parseInt(bookArr[j].isbn), "title" : bookArr[j].title, "classification" : getConcatStringFromDDCArr(ddcArr2),  "averageStars" : bookArr[j].averageStars, "coverImage" : bookArr[j].coverImage, "description" : bookArr[j].description, "isbn" : bookArr[j].isbn, "mapUrl" : bookArr[i].mapUrl, "mmsID" : bookArr[i].mmsID, "author" : bookArr[i].author, "year" : bookArr[i].year});
+											}
+									} else {
+										//console.log("no");
+									}
+									}
+								}
+							}	
+						}
+					}
+				console.log(relationsArray);
+				createVisualization(relationsArray);
+			}
+			
+			function getConcatStringFromDDCArr(arr) {
+				var str=""; 
+				for(var m = 0; m < arr.length; m++) {
+					if(str==="") {
+						str = arr[m].number;
+					} else {						
+						str = str + ", " + arr[m].number; 
+					}
+				}
+				return str;
+			}
+			
+			function checkForIsbnInCollection(bookArr) {
+				//todo: check isbn10 vs 13 if needed
+					for(var i=0; i<bookArr.length; i++) {
+						//check isbn value from this level
+						for(var j=0; j<bookArr.length;j++) {
+							for(var k=0; k<bookArr[j].alsoBought.length; k++) {
+								if(bookArr[i].isbn === bookArr[j].alsoBought[k]) {
+										relationsArray.links.push({"source": parseInt(bookArr[i].isbn), "target": parseInt(bookArr[j].isbn) });
+									
+										if(!exists(parseInt(bookArr[i].isbn))) { 
+											relationsArray.nodes.push({"id": parseInt(bookArr[i].isbn), "title" : bookArr[i].title, "classification" : bookArr[i].classification, "averageStars" : bookArr[i].averageStars, "coverImage" : bookArr[i].coverImage, "description" : bookArr[i].description});
+										}
+										if(!exists(parseInt(bookArr[j].isbn))) {
+											relationsArray.nodes.push({"id": parseInt(bookArr[j].isbn), "title" : bookArr[j].title, "classification" : bookArr[j].classification,  "averageStars" : bookArr[j].averageStars, "coverImage" : bookArr[j].coverImage, "description" : bookArr[j].description});
+										}
+								} else {
+									//console.log("no");
+								}
+							}
+						}
+					}
+				console.log(relationsArray);
+				createVisualization(relationsArray);
+			}
+			
+			//check if item has ddc number
+			function isDDC(item) {
+				if (item.system === "ddc") {
+					return true;
+				} 
+				//invalidEntries++;
+				return false; 
+			}
+			
+			//get ddc number for a given item, return 0 if none
+			function getDDC(e) {
+				//console.log(e);
+				var filteredArray = e.filter(isDDC);
+				if(filteredArray.length>0 && typeof filteredArray[0].number != 'undefined') {
+					return filteredArray;
+				} else { 
+					return null;
+				}
+			}
+	
+	
+	function createVisualization(graph) {	
+		//Hide the loading status
+		d3.select("#loading_status").classed("hidden", true);
+
+
+
+	console.log(graph);
+	
+	//var width = 3600;
+    //var height = 2024;
+	var width = 1800; 
+    var height = 1080;;
+    
+d3.select("div#chartid")
+   .append("div")
+   .classed("svg-container", true) //container class to make it responsive
+   .append("svg")
+   //responsive SVG needs these 2 attributes and no width and height attr
+   .attr("preserveAspectRatio", "xMinYMin meet")
+   .attr("viewBox", "0 0 "+width+" "+height)
+   //class to make it responsive
+   .classed("svg-content-responsive", true); 
+	
+var svg = d3.select("svg");
+
+//svg.attr("transform", "scale(0.1)")
+
+	
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+
+
+
+
+
+/* For the drop shadow filter... */
+  var defs = svg.append("defs");
+
+  var filter = defs.append("filter")
+      .attr("id", "dropshadow")
+
+  filter.append("feGaussianBlur")
+      .attr("in", "SourceAlpha")
+      .attr("stdDeviation", 4)
+      .attr("result", "blur");
+  filter.append("feOffset")
+      .attr("in", "blur")
+      .attr("dx", 2)
+      .attr("dy", 2)
+      .attr("result", "offsetBlur");
+
+  var feMerge = filter.append("feMerge");
+
+  feMerge.append("feMergeNode")
+      .attr("in", "offsetBlur")
+  feMerge.append("feMergeNode")
+      .attr("in", "SourceGraphic");
+      
+      
+  var link = svg.append("g")
+      .attr("class", "links")
+    .selectAll("line")
+    .data(graph.links)
+    .enter().append("line")
+      .attr("stroke-width", 2);
+	  //.attr("stroke", function(d) { return color(d.classification);});
+	  //function(d) { return d.averageStars; }); //Math.sqrt(d.averageStars); });
+
+  var node = svg.selectAll("nodes")
+   //   .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+    .data(graph.nodes)
+    .enter()
+	.append("image")
+		.attr("class", "nodes")
+		.attr("xlink:href", function(d, i){
+				return d.coverImage;//"data:image/jpg;base64," + d.coverImage;
+		})
+		.attr("opacity", .9)
+		.attr("filter", "url(#dropshadow)")
+		.attr("width", function(d) { return calculateSizeBasedOnRating(d.averageStars); }) //7
+		//.attr("x", 100)
+	/*.append("circle")
+      .attr("r", function(d) { return d.averageStars * 1.5; })
+      .attr("fill", function(d) { return color(d.classification); })*/
+	    .on("mouseover", function(d) {
+				currentWidth = parseInt(d3.select(this).attr("width"));
+				d3.select(this).moveToFront();
+				d3.select(this).transition().duration(100)
+				.attr("opacity", 1).attr("width", currentWidth + 50);
+		 })
+		 .on("mouseout", function(d) {			   
+						//Hide the tooltip
+						desiredWidth = calculateSizeBasedOnRating(d.averageStars);
+						d3.select(this).transition().duration(100)
+						.attr("opacity", .9).attr("width", desiredWidth);
+						//d3.select("#tooltip").classed("hidden", true);
+				   })
+		  .on("click", function(d) {
+				//translate x value to match viewport
+				var chart = document.getElementById("chartid");
+				var windowW = chart.clientWidth;
+				var windowH = chart.clientHeight;
+				console.log("wi " + windowW + " he " + windowH);
+				
+				var widthRatio = width / windowW;
+				var currentX = parseFloat(d3.select(this).attr("x")) / widthRatio;
+				var heightRatio = height / windowH;
+				var currentY = parseFloat(d3.select(this).attr("y")) / heightRatio;
+				
+				console.log(d3.select(this).attr("x"));
+				//move element to front 
+				d3.select(this).moveToFront();
+				//Get this bar's x/y values, then augment for the tooltip
+				d3.select(this).attr("opacity", 1)
+				
+				currentWidth = parseInt(d3.select(this).attr("width"));
+				console.log(currentWidth);
+				d3.select(this).transition().duration(25).attr("width", currentWidth+20);
+				
+				//js/helper.js
+				showToolTip(d);
+				
+		  })
+		  .call(d3.drag()
+			  .on("start", dragstarted)
+			  .on("drag", dragged)
+			  .on("end", dragended));
+
+var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    //.force("link", d3.forceLink().id(function(d) { return d.id; }).distance(100).strength(1))
+    .force("charge", d3.forceManyBody())
+    .force("center", d3.forceCenter(width / 2, height / 2));
+
+		//functions for force directed layout
+		simulation
+			  .nodes(graph.nodes)
+			  .on("tick", ticked)
+			  .force("box_force", box_force)
+			  //set radius for collision a bit higher to prevent overlap of nodes
+			  .force("collide",d3.forceCollide(function (d) { return calculateSizeBasedOnRating(d.averageStars)/1.3 } ))
+
+				//test b/o https://bl.ocks.org/mbostock/31ce330646fa8bcb7289ff3b97aab3f5
+			  .velocityDecay(0.4)
+			  .force("x", d3.forceX().strength(0.001))
+    		  .force("y", d3.forceY().strength(0.001));
+    		  //.linkDistance(height/2); //if activated-> eq distance
+
+		simulation.force("link")
+			  .links(graph.links)
+			  
+
+		function ticked() {
+			link
+				.attr("x1", function(d) { return d.source.x; })
+				.attr("y1", function(d) { return d.source.y; })
+				.attr("x2", function(d) { return d.target.x; })
+				.attr("y2", function(d) { return d.target.y; });
+
+			node
+				.attr("x", function(d) { return d.x; })
+				.attr("y", function(d) { return d.y; });
+		  }
+		  
+		 function box_force() { 
+			for (var i = 0, n = graph.nodes.length; i < n; ++i) {
+				curr_node = graph.nodes[i];
+				
+				if(curr_node.x > 1700) {
+					curr_node.x = 1700;
+				} else if(curr_node.x < 0) {
+					curr_node.x = 0;
+				}
+				
+				if(curr_node.y > 920) {
+					curr_node.y = 920;
+				} else if(curr_node.y < 0) {
+					curr_node.y = 0;
+				}
+				//curr_node.x = Math.min(curr_node.x, width - node.x, curr_node.x));
+				
+				//curr_node.y = Math.max(curr_node.y, Math.min(height - node.height, curr_node.y));
+			
+			}
+		}
+
+		function dragstarted(d) {
+		  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+		  d.fx = d.x;
+		  d.fy = d.y;
+		}
+
+		/*         .attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
+        .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); }); */
+
+		function dragged(d) {
+		  d.fx = d3.event.x;
+		  d.fy = d3.event.y;
+		}
+
+		function dragended(d) {
+		  if (!d3.event.active) simulation.alphaTarget(0);
+		  d.fx = null;
+		  d.fy = null;
+		}
+
+	function calculateSizeBasedOnRating(averageStars) {
+		//console.log(averageStars);
+		if(averageStars === 0) {
+			averageStars = 1;
+		} 
+		var calcSize = Math.floor(17 + .75 * averageStars * 10);
+		//console.log(".."+calcSize);
+		return calcSize;
+	}
+}
+		</script>
+	</body>
+</html>
+
+<!-- underlying data format
+graph = {
+  "nodes": [
+    {"id": "Myriel"},
+    {"id": "Napoleon"},
+    {"id": "Mlle.Baptistine"},
+    {"id": "Mme.Magloire"},
+    {"id": "CountessdeLo"}
+  ],
+  "links": [
+    {"source": "Napoleon", "target": "Myriel"},
+    {"source": "Mlle.Baptistine", "target": "Myriel"},
+    {"source": "Mme.Magloire", "target": "Myriel"},
+    {"source": "Mme.Magloire", "target": "Mlle.Baptistine"},
+    {"source": "CountessdeLo", "target": "Myriel"}
+  ]
+};
+-->

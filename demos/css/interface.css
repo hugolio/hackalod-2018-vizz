@@ -1,0 +1,243 @@
+/*shared interface elements*/
+@font-face {
+    font-family: droidSansRegular;
+    src: url(DroidSans.ttf);
+}
+
+body, p {
+    font-family: droidSansRegular,"sans-serif";
+    font-size: 20px;
+
+}
+
+h1 {
+	font-size: 26px;
+}
+
+h2 {
+	font-size: 22px;
+}
+
+/*get book view*/
+#getbookwindow {
+	left: 50px;
+	top: 50px;
+	position: absolute;
+	width: 1150px;
+	height: 900px;
+	padding: 10px;
+	background-color: #eee;
+	opacity: 0.9;
+	
+	/*-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	
+	-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	pointer-events: none;*/
+}
+
+#getbookwindow.hidden {
+	display: none;
+}
+
+#previewbookcanvas {
+	width: 1150px;
+	height: 800px;
+}
+
+
+/*book preview view*/
+#previewbookwindow {
+	left: 50px;
+	top: 50px;
+	position: absolute;
+	width: 1150px;
+	height: 900px;
+	padding: 10px;
+	background-color: #eee;
+	opacity: 0.9;
+	
+	/*-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	
+	-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	pointer-events: none;*/
+}
+
+#previewbookwindow.hidden {
+	display: none;
+}
+
+#previewbookwindow .bookmap {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+/*book view*/
+#tooltip {
+	left: 1250px;
+	top: 50px;
+	position: absolute;
+	width: 500px;
+	height: auto;
+	padding: 10px;
+	background-color: #eee;
+	opacity: 0.8;
+	
+	/*-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	
+	-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	pointer-events: none;*/
+}
+
+#tooltip.hidden {
+	display: none;
+}
+
+#tooltip p {
+	margin: 5px 5px 5px 0px;
+	font-family: sans-serif;
+	font-size: 16px;
+	line-height: 20px;
+}
+
+#tooltip img {
+	 /*float: right;*/
+}
+
+#tooltip .booktitle {
+	color: blue;
+	margin: 5px 5px 5px 0px;
+	font-family: sans-serif;
+	font-size: 24px;
+	line-height: 20px;
+}
+
+#tooltip .bookcover {
+	 float: right;
+}
+
+#tooltip .bookdescription {
+
+}
+
+#tooltip .availability {
+	font-size: 20px;
+	color: green;
+}
+
+#tooltip .bookrating {
+	font-size: 20px;
+	color: purple;
+}
+			
+#closebutton {
+	float: right;
+	width: 30px;
+	height: 30px;
+	
+	cursor: pointer;
+}
+
+/*buttons*/
+.button {
+	float:left;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 10px;
+	font-size: 24px;
+	background-color: orange;
+	width: auto;
+	height: 30px;
+	padding: 10px;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	cursor: pointer;
+}
+
+#getbutton {
+	background-color: orange;	
+}
+
+#savebutton {
+	background-color: green;
+}
+
+#previewbutton {
+	background-color: yellow;
+}
+
+.categorynodetext {
+	font-size: 18px;
+}
+
+/*saved books interface element*/
+#savedbooks {
+	left: 1250px;
+	bottom: 40px;
+	position: absolute;
+	width: 500px;
+	height: 200px;
+	padding: 10px;
+	background-color: #eee;
+	opacity: 0.8;
+	overflow-y: hidden;
+    overflow-x: scroll; /*add this so you get bottom scrollbar*/
+    white-space: nowrap; /*add this to stop images wrapping so thay stay on one line*/
+}
+
+#savedbookviewer {
+}
+
+#savedbooks::-webkit-scrollbar { 
+	display: auto; 
+}
+
+#savedbooks.hidden {
+	display: none;
+}
+
+#savedbooks p {
+	margin: 5px 5px 5px 0px;
+	font-family: sans-serif;
+	font-size: 24px;
+}
+
+#savedbooks img {
+	float: right;
+}
+
+/* hide scrollbars */
+body::-webkit-scrollbar { 
+	display: none; 
+}
+
+/* loading msg */
+#loading_status {
+	margin-left: 700px;
+	margin-top: 500px;
+	background-color: #efe;
+	width: 400px;
+	text-align: center;
+	
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#loading_status.hidden {
+	display: none;
+}

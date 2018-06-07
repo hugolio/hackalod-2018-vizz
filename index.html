@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>XIMPEL</title>
+		<script src="http://code.jquery.com/jquery-1.12.3.min.js"></script>
+		<link rel="stylesheet" href="ximpel/ximpel.css" type="text/css" />
+		
+		<style type="text/css">
+		html,body, #ximpel {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		</style>
+		
+		<script type="text/javascript" src="hammer/hammer.min.js"></script>
+		
+		<script type="text/javascript" src="ximpel/ximpel.js"></script>
+		
+		<script type="text/javascript" src="bookManager.js"></script>
+		
+		<!-- custom media types -->
+		<script type="text/javascript" src="Iframe.js"></script>
+		<script type="text/javascript" src="PDFViewer.js"></script>
+		<script type="text/javascript" src="MetadataVisualization.js"></script>
+		
+		<script type="text/javascript">
+			$( document ).ready(function(){
+
+				// Define a XimpelApp object by passing the following arguments:
+				// - The appId which is just a unique name for this presentation.
+				// - The path to the playlist file relative to this html document.
+				// - The path to the config file relative to this html document
+				// - An object containing multiple optional settings such a the
+				//   the width/height of the app and the element to use.
+				var myApp = new ximpel.XimpelApp(
+					'ximpelapp',
+					'playlist.xml', 
+					'config.xml', 
+					{'appElement': 'ximpel'
+					}
+				);
+
+				// After creating a XimpelApp object tell the object to load the given playlist and config file.
+				myApp.load( {
+					'autoPlay': true
+				}).done( function(){
+					// This function is executed once the ximpel app has finished loading the playlist 
+					// and config file and has been fully initialized (ie its ready to play or it is 
+					// already playing if autoplay was set to true). This function can be used to interact
+					// with the ximpel app using external javascript.
+					var player = myApp.ximpelPlayer;
+					
+					// Init score display
+					var showScore = player.getConfigProperty('showScore');
+					
+					if (showScore){
+						$('.scoreContainer').show();
+						$('#scoreA').text(0);
+						// Add more score initializations here
+						
+						player.addEventHandler( 'variable_updated', function( variableId ){
+							$('#' + variableId).text( player.getVariable( variableId ) );
+						});
+					}
+					else {
+						$('.scoreContainer').hide();
+					}
+				}.bind(this));
+			});
+		</script>
+	</head>
+
+	<body>
+		<div id="ximpel">
+			<div class="scoreContainer">
+				<div class="score">Score: <span id="scoreA"></span></div>
+				<!-- Add more score containers here -->
+			</div>
+		</div>
+	</body> 
+</html>

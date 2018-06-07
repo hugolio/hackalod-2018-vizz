@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>d3-force-cluster and d3-force-attract</title>
+
+    <script src="d3/d3.js"></script>
+    <script src="js/d3-force-attract@0.1.1"></script>
+    <script src="js/d3-force-cluster@0.1.2"></script>
+	<script type="text/javascript" src="https://www.google.com/books/jsapi.js"></script>
+    <script type="text/javascript" src="js/helper.js"></script>
+
+    <link rel="stylesheet" href="css/interface.css">
+	
+	<script type="text/javascript">
+      google.books.load();
+    </script>
+	
+	</head>
+<body>
+	<div id="loading_status">
+		<h1>Now loading...</h1>
+	</div>
+	
+	<div id="tooltip" class="hidden">
+		<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="title" class="booktitle" width="100"><h1>Label Heading</h1></span>
+		</div>
+			
+		<div id="descr">
+			<img class="bookcover" id="bookcover"/>
+			<span id="bookdescr" class="bookdescription">Description</span>
+		</div>
+		
+		<div id="rating">
+			<span id="bookrat" class="bookrating">Description</span>
+		</div>
+
+		<div id="avail">
+			<span id="bookavail" class="availability"></span>
+		</div>
+			
+		<div id="actions">
+			<!--<img id="savebutton" class="savebutton" src="gui/saveButton.png">-->
+			<span id="previewbutton" class="button">View</span>
+			<span id="getbutton" class="button">Get this book</span>
+			<span id="savebutton" class="button">&#128077; Like</span>
+		</div>
+	</div>
+	
+	<div id="savedbooks" class="hidden">	
+		<span id="title" class="savedbookstitle"><p>Books you liked:</p></span>
+			<svg id="savedbookviewer" />
+	</div>
+	
+	<div id="getbookwindow" class="hidden">
+		<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="locatebooktitle" class="booktitle" width="100"><h1>Get this book</h1></span>
+		</div>
+		<div id="bookdetails">
+			<h3>Author and title</h3>
+		</div>
+		<div>
+			<h2>You can find this book here:</h2>
+		</div>
+		<div id="map">
+			<img class="bookmap" id="bookloc" src="" width="1000"  />
+		</div>
+		<div>
+			<p>Contact the library desk if you have trouble locating the book.</p>
+		</div>
+		<div id="actions">
+			<!--<span id="" class="button">Reserve this book</span>-->
+			<span id="" class="button">Send book details to my phone</span>
+		</div>
+	</div>
+	
+	<div id="previewbookwindow" style="visibility:hidden">
+    	<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="locatebooktitle" class="booktitle" width="100"><h1>Preview this book</h1></span>
+		</div>
+		<div id="previewbookcanvas" />
+	</div>
+	
+    <script>
+
+var width = 1800;
+var height = 1012;
+var padding = 12; // separation between same-color nodes
+var clusterPadding = 10; // separation between different-color nodes
+var maxRadius = 12;
+
+//get number of nodes to show from browser parameter
+var NUMBER_OF_ELEMENTS = getParameterByName('nodes');
+var MINIMUM_NUMBER_OF_STARS = 1;
+
+if (NUMBER_OF_ELEMENTS==null) {
+	NUMBER_OF_ELEMENTS = 100;
+}
+
+var STROKE_COLOR = "#ffffff";
+
+//get depth of classification to show from browser parameter
+var DDC_DEPTH = getParameterByName('ddcdepth');
+if (DDC_DEPTH == null || DDC_DEPTH > 3) {
+	DDC_DEPTH = 2;
+}
+
+//get ddc classification startingpoint [optional]
+var DDC_FILTER = getParameterByName('ddcfilter');
+console.log("DDC FILTER>> >> "+DDC_FILTER);
+
+//number of clusters specifies how many clusters should be shown; main influence is on the color scheme 
+var NUMBER_OF_CLUSTERS = 11;
+
+var color = d3.scaleSequential(d3.interpolateRainbow)
+    .domain(d3.range(NUMBER_OF_CLUSTERS));
+
+//make the size of nodes (more or less) adaptive to the number of elements shown
+var SIZE_MULTIPLIER = (1/NUMBER_OF_ELEMENTS) * 650;
+if(NUMBER_OF_ELEMENTS < 60) {
+	SIZE_MULTIPLIER = 10;
+}
+
+//nodes and clusters objects
+var nodes = [];
+var clusters = new Object;			
+
+//always show books saved in earlier steps (helper.js)
+showSavedBooks();
+
+//read DDC classes/labels from json file (helper.js)
+readDDCClasses();
+
+//get input file from browser parameter			
+var inputFile = getParameterByName('file');
+if (inputFile==null) {
+	inputFile = "data/urealPensum.json";
+}
+//Read json, create book info object (helper.js)
+initiateVisualization(inputFile, NUMBER_OF_ELEMENTS, MINIMUM_NUMBER_OF_STARS);
+
+function initiateVisualization(inputFile, numElements, minStars) {	
+	//in helper.js
+	readBookJSON(inputFile, numElements, minStars, function(d) {
+		//callback
+		if(numElements > d.length) {
+			numElements = d.length;
+		}
+		createBookElements(d,numElements);//d.length);
+	});
+}
+			
+function createBookElements(bookInfoArr,numClassifiedItems) {
+	nodes = d3.range(numClassifiedItems).map(function (_, i) {	
+		//set adaptive size of nodes
+		var size = 1 * SIZE_MULTIPLIER;
+		
+		//set nodes size based on amazon rating
+		if(bookInfoArr[i].averageStars == 0) {
+			size = 7 * SIZE_MULTIPLIER;
+		} else {
+			size = Math.floor(bookInfoArr[i].averageStars * SIZE_MULTIPLIER * 2);
+		}
+		
+		var velocity = Math.random() * 2 + 1;
+		var angle = Math.random() * 360;
+		
+		//show first n numbers of ddc
+		var ddcClassLabel = bookInfoArr[i].classification;
+		//getLabelForDDCClass(bookInfoArr[i].classification.substring(0,DDC_DEPTH));
+		var clust = bookInfoArr[i].classification.hashCode();
+		//bookInfoArr[i].classification.substring(0,DDC_DEPTH);	
+		
+		//supported by modern browsers..!
+		//have to get cluster number in advance
+		var clLen = Object.keys(clusters).length;
+		
+		console.log("testt1");
+		console.log(color(1));
+		console.log(color(2));
+		console.log(color(3));
+		console.log(color(1000));
+		//create data object to use in visualization
+		var d = {
+			x: Math.cos(i / clLen * 2 * Math.PI) * 200 + width / 2 + Math.random(),
+			y: Math.sin(i / clLen * 2 * Math.PI) * 200 + height / 2 + Math.random(),
+			//vx: velocity * Math.cos(angle * Math.PI / 180),
+			//vy: velocity * Math.sin(angle * Math.PI / 180),
+			size: size,
+			coverImage: bookInfoArr[i].coverImage,
+			author: bookInfoArr[i].author,
+			description: bookInfoArr[i].description,
+			classification: ddcClassLabel,
+			averageStars: bookInfoArr[i].averageStars,
+			title: bookInfoArr[i].title,
+			year: bookInfoArr[i].year,
+			isbn: bookInfoArr[i].isbn,
+			mapUrl: bookInfoArr[i].mapUrl,
+			mmsID : bookInfoArr[i].mmsID,
+			fill: color(i/NUMBER_OF_CLUSTERS),
+			radius: size,
+			cluster: clust,
+			//set node type: "node" or "categoryNode" (describing a category)
+			type: "node"
+		}
+		
+		if(clusters[d.cluster] == null) {
+			var dCopy = extend(d);
+			clusters[d.cluster] = dCopy;
+		}
+		
+		return d;
+
+	});
+	
+    processClusters(clusters);
+    
+    for(var key in clusters) {
+    	nodes.push(clusters[key]);
+    }
+    
+    createViz(nodes);   
+}
+
+//do processing on cluster nodes
+function processClusters(clusters) {
+	for(var book in clusters) {
+		//[todo] process contents of nodes (other properties are left as a std node at the moment)
+		clusters[book].radius = 8 * SIZE_MULTIPLIER;
+		clusters[book].type = "categoryNode";
+	}
+	return clusters;
+}
+
+function createViz(nodes) {
+	// hide the loading status
+	d3.select("#loading_status").classed("hidden", true);
+
+	var simulation = d3.forceSimulation()
+	  // keep entire simulation balanced around screen center
+	  .force('center', d3.forceCenter(width/2, height/2))
+  
+	  // pull toward center
+	  .force('attract', d3.forceAttract()
+		.target([width/2, height/2])
+		.strength(0.01))
+
+	  // cluster by section
+	  .force('cluster', d3.forceCluster()
+		.centers(function (d) { return clusters[d.cluster]; })
+		.strength(0.5)
+		.centerInertia(0.1))
+
+	  // apply collision with padding
+	  .force('collide', d3.forceCollide(function (d) { return d.radius + padding; })
+		.strength(0))
+
+	  .on('tick', layoutTick)
+	  .nodes(nodes);
+  
+	var svg = d3.select('body').append('svg')
+		.attr('width', width)
+		.attr('height', height);
+
+	var group = svg.selectAll('g')
+	  .data(nodes).enter().append('g')
+	  .attr('id', 'allnodes')
+	  .attr('opacity', .7)
+	  .attr('style','cursor: pointer;')
+	  //add property to determine whether a node is currently selected or not
+	  //upon opening the app, all nodes are selected.
+	  .attr('_selected','true');
+  
+	var node = group.append('circle')
+		.style('fill', function (d) { console.log("TESTTEST"); console.log('0.'+Math.abs(d.cluster)); return color('0.'+Math.abs(d.cluster))})//return d.fill })//return color(Math.floor(Math.random()*100)); }) //return "yellow"; })
+		.attr('r', function (d) { return d.size })
+		.attr('x', function (d) { return d.x })
+		.attr('y', function (d) { return d.y });
+		
+		
+	console.log('font-size'+SIZE_MULTIPLIER+"px");
+	
+	var fontSize = SIZE_MULTIPLIER*2.2;
+	if(fontSize < 14) { fontSize = 14;}
+	
+	//select only category nodes. Add text (ddc label) to the circle
+    var txt = group.filter(function(d){ return d.type=="categoryNode"; })
+		.append('text')
+	  		.text(function (d) {
+				console.log(d.cluster);
+	  			return d.classification;
+			})
+			//.attr('class','categorynodetext')
+			.attr('font-size',fontSize+"px")
+			.attr('x', function (d) { return d.x })
+			.attr('y', function (d) { return d.y })
+			.call(wrapText, 50)
+	
+	//select only normal nodes.
+	var nodeGroup = group.filter(function(d){ 
+		return d.type=="node"; 
+	})
+
+	//add images, etc.
+	var img = nodeGroup.append('image')
+		.attr("xlink:href", function(d, i){
+				return d.coverImage;//"data:image/jpg;base64," + d.coverImage;
+		})
+		.attr('width', function (d) { 
+				return d.size*2;//*1.08 
+			})
+		.attr('height', function (d) { return d.size*2 })
+		.attr('x', function (d) { return d.x })
+		.attr('y', function (d) { return d.y })
+		
+		//round clipping - only seems to work in chrome/chromium
+		.attr("clip-path",function(d,i){ return "circle("+(d.size-d.size*.25)+"px)" })
+	
+		.attr('opacity', 1);
+		
+	group.on("click", function(d) {			
+		console.log(d.type);
+		console.log(d.classification);
+		window.parent.postMessage(JSON.stringify({
+						eventName: 'click',
+						payload: {
+							selectedItem: d.isbn,
+							itemType: d.type,
+						},
+					}), '*');
+
+		//normal node click behavior
+		if(d.type=="node") {
+			isSelectedNode = d3.select(this).attr('_selected');
+		
+			console.log(isSelectedNode);
+			
+			//check if alpha is low > other node than currently selected category
+			if(isSelectedNode=='false') {
+				console.log('unselected cat!');
+				d3.selectAll('g#allnodes').attr('opacity',.9).select('circle').style("stroke", "none");
+				//set custom _selected (selected category) property to true (so all nodes are selected again)
+				d3.selectAll('g#allnodes').attr('_selected','true');
+			} else {
+				console.log('selected cat!');
+				d3.selectAll('g#allnodes').filter(function(e){return (e.type=="node" && e.cluster==d.cluster); }).select('circle').transition().duration(10).style("stroke-width", "1px");
+			}
+			
+			d3.select(this).select('circle').transition().duration(250).attr("r", 150).style("stroke", STROKE_COLOR)
+	.style("stroke-width", "6px");
+			
+			//js/helper.js
+			showToolTip(d);	
+		} else if(d.type=="categoryNode") {
+				hideToolTip();
+				
+				//reset previous borders
+				d3.selectAll('g#allnodes').select('circle').style("stroke", "none");
+				//set custom _selected (selected category) property to false
+				d3.selectAll('g#allnodes').attr('_selected','false');
+				
+				//get current radius
+				var currR = d3.select(this).select('circle').attr('r'); 
+				
+				//set radius transition
+				d3.select(this).select('circle').transition().duration(750).attr("r", currR*1.35).style("stroke", "#aaaaaa")
+        .style("stroke-width", "12px");
+				
+				//set stroke transition
+				d3.selectAll('g#allnodes').filter(function(e){return (e.type=="node" && e.cluster==d.cluster); }).attr('_selected','true').transition().duration(10).attr('opacity',.9).select('circle').style("stroke", STROKE_COLOR).style("stroke-width", "1px");
+					
+				//make all unselected nodes (excl. category nodes) transparent
+				d3.selectAll('g#allnodes').filter(function(e){return (e.type=="node" && e.cluster!=d.cluster); }).transition().duration(300).attr('opacity',.3).style("stroke", STROKE_COLOR).style("stroke-width", "0px");	
+			}
+		})
+		
+		/*.on("mouseover", function(d) {
+				d3.select(this).transition().duration(50)
+					.attr('opacity', 1);
+		})
+		
+		.on("mouseout", function(d) {
+				d3.select(this).transition().duration(200).attr('opacity', .7);
+		});*/
+
+		.on("mouseover", function(d) {			   
+			d3.select(this).transition().duration(50)
+			.attr('opacity', 1)			
+		})
+			
+		.on("mouseout", function(d) {
+			console.log(d.type);			   
+			isSelectedNode = d3.select(this).attr('_selected');
+			console.log(isSelectedNode);
+			
+			if(isSelectedNode=='true') {
+				d3.select(this).transition().duration(50)
+				.attr('opacity', .9)
+			} else {
+				d3.select(this).transition().duration(50)
+				.attr('opacity', .3)
+			}
+		});
+
+	//attach drag handlers
+	group.call(d3.drag()
+		.on('start', dragstarted)
+		.on('drag', dragged)
+		.on('end', dragended)
+	)
+	
+	function dragstarted (d) {
+		if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+		d.fx = d.x;
+		d.fy = d.y;
+	}
+
+	function dragged (d) {
+		d.fx = d3.event.x;
+		d.fy = d3.event.y;
+	}
+
+	function dragended (d) {
+		if (!d3.event.active) simulation.alphaTarget(0);
+		d.fx = null;
+		d.fy = null;
+	}
+
+	//ramp up collision strength to provide smooth transition
+	var transitionTime = 3000;
+	var t = d3.timer(function (elapsed) {
+		var dt = elapsed / transitionTime;
+		simulation.force('collide').strength(Math.pow(dt, 2) * 0.7);
+		if (dt >= 1.0) t.stop();
+	});
+  	
+  	//simulation - move node (circles), images and text via separate functions
+	function layoutTick (e) {
+		node
+		//use bounding box for nodes based on width/height
+		.attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x)); })
+		.attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y)); })
+		.attr('r', function (d) { return d.radius; });
+		img
+		.attr('x', function (d) { return d.x-d.radius; })
+		.attr('y', function (d) { return d.y-d.radius; })
+		txt
+		.attr('x', function (d) { return d.x-d.radius/1.45; })
+		.attr('y', function (d) { return d.y; })
+	}
+}
+    </script>
+  </body>
+</html>

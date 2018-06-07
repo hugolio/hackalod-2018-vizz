@@ -1,0 +1,156 @@
+/* This class can be assigned to an element so that no tecxt-highlting is possible on it. (to prevent accidental selections). */
+.noSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Default styling for the main ximpel container element */
+.ximpelApp{
+	height: 100%;
+	margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: white;
+	overflow-y: hidden; 
+	overflow-x: hidden;
+}
+
+/* Styling for all div elements within the .ximpelContainer element (ie. for all its descendants) */
+.ximpelApp div{
+	margin: 0;
+    padding: 0;
+    border: 0;
+}
+.ximpelWrapper{
+    background-color: black;
+}
+/* Default styling for the main ximpel player element */
+.ximpelPlayer{
+    background-color: black;
+	overflow-y: hidden; 
+	overflow-x: hidden;
+	text-align: center;
+}
+.ximpelControls{
+	background-color: gray;
+	overflow-y: hidden; 
+	overflow-x: hidden;
+}
+.ximpelControlsOverlay{
+	background: rgb(0, 0, 0);
+	background-color: rgba( 0, 0, 0, 0.6);
+}
+.ximpelControlsFixed{
+	background: rgb(0, 0, 0);
+	background-color: rgba( 0, 0, 0, 1);
+}
+.ximpelControl{
+	opacity: 1;
+	content: " ";
+}
+.question{
+	position: absolute;
+	text-align: center;
+	overflow: hidden;
+	z-index: 1100;
+}
+/* The styling for the main overlay element */
+.overlay{
+	position: absolute;
+	text-align: center;
+	overflow: hidden;
+	z-index: 1000;
+}
+.overlay:hover{
+	cursor: pointer;
+}
+.overlay:hover div{
+}
+/* Styling the element that functions as the background for the main overlay element (=a div child of main overlay element).
+ * The reason there is a seperate element for defining the background is to get background opacity working properly without needing 
+ * rgba() because with rgba with need the rgb values which are a hassle to compute for hex and color names. */
+.overlay div{
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: black;
+}
+/* Styling the span containing the text of the overlay. */
+.overlay span{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+	font-weight: bold;
+	overflow: hidden;
+}
+/* For oval overlays we set the border-radius to 50% of the main overlay element and all its children. */
+.overlayOval, .overlayOval *{
+	border-radius: 50%;
+}
+
+.ximpelApp div.scoreContainer {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 10px;
+	z-index: 1;
+	background: rgba(0, 0, 0, 0.7);
+}
+
+.scoreContainer .score {
+	color: white;
+}
+
+.urlDisplay {
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	padding: 0px;
+	position: absolute;
+	z-index: 9999;
+	background-color: #fff;
+}
+
+.urlDisplay iframe {
+	width: 100%;
+	height: 100%;
+	padding: 0px;
+}
+
+.urlDisplay img.closeButton {
+	bottom: 28px;
+	left: 0px;
+	position: absolute;
+	width: 105px;
+	height: 108px;
+	z-index: 2;
+	margin: 40px;
+	background-color: transparent;
+	opacity: 0.5;
+	cursor: pointer;
+}
+
+@keyframes swipe {
+	to {
+		transform: translateX(0px) translateY(0px) scale(1.0);
+		opacity: 1.0;
+	}
+}
+
+
+/* 	
+ * transform: translate3d( 0,0,0 ); might work for overflow: hidden bugs in chrome 
+ */

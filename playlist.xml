@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ximpel>
+    <playlist>	
+	
+		<!-- demo mode? open visualizations, duration = "10", onclick go to main menu -->
+	
+		<!--<subject id="main" swipeLeftTo="book1" swipeRightTo="book4">
+			<media>
+				<video x="0px" y="500px" width="1000px" height="500px" repeat="true">
+					<source file="media/bg_smoke" extensions="mp4" types="video/mp4" />
+				
+					<overlay x="0" y="0" width="1920" height="1080" alpha=".7" image="media/main_menu.jpg" />
+				
+					<overlay x="1400" y="400" backgroundColor="#222222" text="Recipe Vizz Test" width="500px" height="50px" leadsTo="book1" />
+					<overlay x="1400" y="500" backgroundColor="#eeeeff" text="Medical Library Collection" width="500px" height="50px" leadsTo="medBooks1" />
+					<overlay x="1400" y="600" backgroundColor="lightblue" text="HumSam Pensum Collection" width="500px" height="50px" leadsTo="humSamBooks1" />
+				</video>
+			</media>
+		</subject>-->
+	
+	
+		<!--<subject id="book1" swipeLeftTo="book1a">
+			<description>test new bookviewer</description>
+			<media>
+				<pdfviewer width="1800px" height="1012px" file="media/2013Deligne_brochure.pdf" backgroundColor="#222222" containerBackgroundColor="#ffad48">
+				-->
+					<!-- label -->
+					<!--<overlay x="1100" y="1000" width="900px" height="75px" text="Clusters: Ureal Pensum (b/o DDC divisions, size: Amazon rating)" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="16pt"/>
+					-->
+					<!-- navigation buttons -->
+					<!--<overlay x="1868px" y="500px" text="&gt;" width="45px" height="50px" leadsTo="book1a" />
+					-->
+					<!-- home button -->
+					<!--<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>
+				</pdfviewer>
+			</media>
+		</subject>-->
+		
+		<subject id="book1" swipeLeftTo="book1a">
+			<media>
+				<metadatavisualization width="1800px" height="1012px" file="media/json/nrc_recipes_clean2_2.json" numberOfNodes="80" ddcFilter="" ddcDepth="2" visualizationType="clusters" backgroundColor="#222222" containerBackgroundColor="#ffad48">
+					<!-- label -->
+					<overlay x="1100" y="1000" width="900px" height="75px" text="Cluster" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="16pt"/>
+					
+					<!-- navigation buttons -->
+					<overlay x="1868px" y="500px" text="&gt;" width="45px" height="50px" leadsTo="book1a" />
+					
+					<!-- home button -->
+					<!--<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>-->
+				</metadatavisualization>
+			</media>
+		</subject>
+		
+		<subject id="book1a" swipeLeftTo="book1b" swipeRightTo="book1">
+			<media>
+				<metadatavisualization width="1800px" height="1012px" file="media/json/nrc_recipes_clean2_2.json" numberOfNodes="300" ddcFilter="" ddcDepth="3" visualizationType="clusters" backgroundColor="lightblue" containerBackgroundColor="#ffad48">
+					<!-- label -->
+					<overlay x="1100" y="1000" width="900px" height="75px" text="Clusters" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="16pt"/>
+					
+					<!-- navigation buttons -->				
+					<overlay x="6" y="500" text="&lt;" width="45px" height="50px" leadsTo="book1" />
+					<overlay x="1868" y="500" text="&gt;" width="45px" height="50px" leadsTo="book1b" />
+					
+					<!-- home button -->
+					<!--<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>-->
+				</metadatavisualization>
+			</media>
+		</subject>
+		
+		
+		<subject id="book1b" swipeLeftTo="book1c" swipeRightTo="book1a">
+			<media>
+				<metadatavisualization width="1800px" height="1012px" file="media/json/nrc_recipes_clean2_2.json" ddcFilter="" visualizationType="wordcloud" containerBackgroundColor="#ffad48" backgroundColor="#ffffff">
+					<!-- label -->
+					<overlay x="800" y="1000" width="1200px" height="75px" text="Word Cloud" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="14pt"/>					
+					
+					<!-- navigation buttons -->	
+					<overlay x="6" y="500" text="&lt;" width="45px" height="50px" leadsTo="book1a" />
+					<overlay x="1868" y="500" text="&gt;" width="45px" height="50px" leadsTo="book1c" />
+					
+					<!-- home button -->
+					<!--<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>-->
+				</metadatavisualization>
+			</media>
+		</subject>
+				
+		<subject id="book1c" swipeLeftTo="book1d" swipeRightTo="book1b">
+			<media>
+				<metadatavisualization width="1800px" height="1012px" file="media/json/nrc_recipes_clean2_2.json" visualizationType="chart" backgroundColor="#ffffff" containerBackgroundColor="#ffad48">
+					<!-- label -->
+					<overlay x="1100" y="1000" width="900px" height="75px" text="Chart (size: number of ingredients)" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="16pt"/>	
+					
+					<!-- navigation buttons -->	
+					<overlay x="6" y="500" text="&lt;" width="45px" height="50px" leadsTo="book1b" />
+					<overlay x="1868" y="500" text="&gt;" width="45px" height="50px" leadsTo="book1d" />
+					
+					<!-- home button -->
+					<!--<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>-->
+				</metadatavisualization>
+			</media>
+		</subject>
+		
+		<subject id="book1d" swipeRightTo="book1c">
+			<media>
+				<metadatavisualization width="1800px" height="1012px" file="media/json/nrc_recipes_clean2_2.json" numberOfNodes="300" visualizationType="network" backgroundColor="white" containerBackgroundColor="#ffad48">
+					<!-- label -->
+					<overlay x="1500" y="1000" width="400px" height="75px" text="Network : Ureal Pensum (closeness: DDC, size: Amazon rating)" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="18pt"/>
+					
+					<!-- navigation buttons -->	
+					<overlay x="6" y="500" text="&lt;" width="45px" height="50px" leadsTo="book1c" />
+					
+					<!-- home button -->
+					<!--<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>-->
+				</metadatavisualization>
+			</media>
+		</subject>
+		
+		<subject id="medBooks1" swipeLeftTo="">
+			<media>
+				<metadatavisualization width="1800px" height="1012px" file="media/json/medBokSamlOnlyDDC.json" numberOfNodes="70" ddcDepth="2" visualizationType="clusters" backgroundColor="#eeeeff" containerBackgroundColor="#ddddaa">
+					<!-- label -->
+					<overlay x="1100" y="1000" width="900px" height="75px" text="Clusters: Ureal Pensum (b/o DDC divisions, size: Amazon rating)" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="16pt"/>
+					
+					<!-- navigation buttons -->
+					<overlay x="1868px" y="500px" text="&gt;" width="45px" height="50px" leadsTo="medBooks2" />
+					
+					<!-- home button -->
+					<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>
+				</metadatavisualization>
+			</media>
+		</subject>
+		
+		<subject id="medBooks2" swipeLeftTo="medBooks3" swipeRightTo="medBooks1">
+			<media>
+				<metadatavisualization width="1800px" height="1012px" file="media/json/medBokSamlOnlyDDC.json" visualizationType="wordcloud" containerBackgroundColor="#ddddaa" backgroundColor="#eeeeff">
+					<!-- label -->
+					<overlay x="800" y="1000" width="1200px" height="75px" text="Word Cloud: Umed collection (b/o abstracts - blue: high avg rating, red: low avg rating)" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="14pt"/>					
+					
+					<!-- navigation buttons -->	
+					<overlay x="6" y="500" text="&lt;" width="45px" height="50px" leadsTo="medBooks1" />
+					<overlay x="1868px" y="500px" text="&gt;" width="45px" height="50px" leadsTo="medBooks3" />
+					
+					<!-- home button -->
+					<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>
+				</metadatavisualization>
+			</media>
+		</subject>
+		
+		<subject id="medBooks3" swipeRightTo="medBooks2">
+			<media>
+				<metadatavisualization width="1800px" height="1012px" file="media/json/medBokSamlOnlyDDC.json" visualizationType="network" backgroundColor="#eeeeff" containerBackgroundColor="#ddddaa">
+					<!-- label -->
+					<overlay x="1500" y="1000" width="400px" height="75px" text="Network : Ureal Pensum (closeness: DDC, size: Amazon rating)" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="18pt"/>
+					
+					<!-- navigation buttons -->	
+					<overlay x="6" y="500" text="&lt;" width="45px" height="50px" leadsTo="medBooks2" />
+					
+					<!-- home button -->
+					<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>	
+				</metadatavisualization>
+			</media>
+		</subject>
+		
+		<subject id="humSamBooks1" swipeLeftTo="humSamBooks2">
+			<media>
+				<metadatavisualization width="1800px" height="1012px" file="media/json/humsamPensumOnlyDDC.json" visualizationType="chart" backgroundColor="lightblue" containerBackgroundColor="#ee0048">
+					<!-- label -->
+					<overlay x="1100" y="1000" width="900px" height="75px" text="Chart: HumSam Pensum books (size: Amazon ratings)" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="16pt"/>
+					
+					<!-- navigation buttons -->	
+					<overlay x="1868" y="500" text="&gt;" width="45px" height="50px" leadsTo="humSamBooks2" />
+					
+					<!-- home button -->
+					<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>
+				</metadatavisualization>
+			</media>
+		</subject>
+		
+		<subject id="humSamBooks2" swipeLeftTo="humSamBooks3" swipeRightTo="humSamBooks1">
+			<media>
+				<metadatavisualization width="1800px" height="1012px" file="media/json/humsamPensumOnlyDDC.json" numberOfNodes="40" visualizationType="network" backgroundColor="lightblue" containerBackgroundColor="#ee0048">
+					<!-- label -->
+					<overlay x="1100" y="1000" width="900px" height="75px" text="Network: HumSam Pensum (relations: DDC)" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="16pt"/>			
+					
+					<!-- navigation buttons -->	
+					<overlay x="6" y="500" text="&lt;" width="45px" height="50px" leadsTo="humSamBooks1" />
+					<overlay x="1868" y="500" text="&gt;" width="45px" height="50px" leadsTo="humSamBooks3" />
+					
+					<!-- home button -->
+					<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>
+				</metadatavisualization>
+			</media>
+		</subject>
+		
+		<subject id="humSamBooks3" swipeRightTo="humSamBooks1">
+			<media>
+				<metadatavisualization width="1800px" height="1012px" file="media/json/humsamPensumOnlyDDC.json" numberOfNodes="300" visualizationType="collisions" backgroundColor="lightblue" containerBackgroundColor="#ee0048">
+					<!-- label -->
+					<overlay x="1500" y="1000" width="400px" height="75px" text="Collision detection: HumSam Pensum" backgroundColor="transparent" alpha="1" hoverAlpha="1" textColor="#cccccc" fontSize="18pt"/>
+					
+					<!-- navigation buttons -->	
+					<overlay x="6" y="500" text="&lt;" width="45px" height="50px" leadsTo="humSamBooks2" />
+					
+					<!-- home button -->
+					<overlay x="1865px" y="950px" width="52px" height="54px"  image="media/home_button.png" backgroundColor="transparent" leadsTo="main" alpha=".9" hoverAlpha=".7 "/>	
+				</metadatavisualization>
+			</media>
+		</subject>
+    </playlist>    
+</ximpel>

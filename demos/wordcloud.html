@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+
+<script type="text/javascript" src="d3/d3.v3.js"></script>
+<script type="text/javascript" src="js/d3.layout.cloud.js"></script>
+<script type="text/javascript" src="js/helper.js"></script>
+<script type="text/javascript" src="https://www.google.com/books/jsapi.js"></script>
+<script type="text/javascript">google.books.load();</script>
+<link rel="stylesheet" href="css/interface.css">
+<head>
+
+</head>
+<style>
+    .legend {
+        border: 1px solid #555555;
+        border-radius: 5px 5px 5px 5px;
+        font-size: 0.8em;
+        margin: 10px;
+        padding: 8px;
+    }
+    .bld {
+        font-weight: bold;
+    }
+			
+
+</style>
+<body>
+<div id="loading_status">
+		<h1>Now loading...</h1>
+	</div>
+	
+	<div id="tooltip" class="hidden">
+		<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="title" class="booktitle" width="100"><h1>Label Heading</h1></span>
+		</div>
+			
+		<div id="descr">
+			<img class="bookcover" id="bookcover"/>
+			<span id="bookdescr" class="bookdescription">Description</span>
+		</div>
+		
+		<div id="rating">
+			<span id="bookrat" class="bookrating">Description</span>
+		</div>
+
+		<div id="avail">
+			<span id="bookavail" class="availability">Description</span>
+		</div>
+			
+		<div id="actions">
+			<!--<img id="savebutton" class="savebutton" src="gui/saveButton.png">-->
+			<span id="previewbutton" class="button">Preview</span>
+			<span id="getbutton" class="button">Get this book</span>
+			<span id="savebutton" class="button">&#128077; Like</span>
+		</div>
+	</div>
+	
+	<div id="savedbooks" class="hidden">	
+		<span id="title" class="savedbookstitle"><p>Books you liked:</p></span>
+			<svg id="savedbookviewer" />
+	</div>
+	
+	<div id="getbookwindow" class="hidden">
+		<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="locatebooktitle" class="booktitle" width="100"><h1>Get this book</h1></span>
+		</div>
+		<div id="bookdetails">
+			<h3>Author and title</h3>
+		</div>
+		<div>
+			<h2>Library map</h2>
+		</div>
+		<div id="map">
+			<img class="bookmap" id="bookloc" src="" width="1000"  />
+		</div>
+		<div>
+			<p>Contact the library desk if you have trouble locating the book.</p>
+		</div>
+		<div id="actions">
+			<span id="" class="button">Send a link to my phone</span>
+		</div>
+	</div>
+	
+	<div id="previewbookwindow" style="visibility:hidden">
+    	<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="locatebooktitle" class="booktitle" width="100"><h1>Preview this book</h1></span>
+		</div>
+		<div id="previewbookcanvas" />
+	</div>	
+    
+    <script>
+    
+	var NUMBER_OF_ELEMENTS = 5;
+	var MINIMUM_NUMBER_OF_STARS = 1;
+	
+	//always show books saved in earlier steps (helper.js)
+	showSavedBooks();
+
+	//read DDC classes/labels from json file (helper.js)
+	readDDCClasses();
+	
+	//get ddc classification startingpoint [optional]
+	var DDC_FILTER = getParameterByName('ddcfilter');
+
+	//get input file from browser parameter			
+	var inputFile = getParameterByName('file');
+	if (inputFile==null) {
+		inputFile = "data/urealPensum.json";
+	}
+	//Read json, create book info object (helper.js)
+	initiateVisualization(inputFile, NUMBER_OF_ELEMENTS, MINIMUM_NUMBER_OF_STARS);
+
+	function initiateVisualization(inputFile, numElements, minStars) {	
+		//in helper.js
+		readBookJSON(inputFile, numElements, minStars, function(d) {
+			//callback
+			addWordArrays(d);
+		});
+	}
+		
+	function addWordArrays(bookArr) {
+		//process book array to add lists of words (for word cloud)
+		for(var i=0; i<bookArr.length; i++) {
+			bookArr[i].wordArray = bookArr[i].alsoBought;
+		}
+		processWords(bookArr);
+	}
+	
+	function processWords(bookArr) {
+		var wordArr = {
+			wordInfo : []
+		};
+		
+		for(var i=0; i<bookArr.length; i++) {
+			for(var j=0; j<bookArr[i].wordArray.length; j++) {
+				//get previous value, if not exists -1
+				var lowerCaseWord = bookArr[i].wordArray[j].toLowerCase();
+				var processedWord = lowerCaseWord.replace(/[^a-z0-9]/gi,'');
+				var nodePosition = getNodePosition(processedWord, wordArr.wordInfo);
+				if(!isStopword(processedWord)) {
+					if (nodePosition == -1) {
+						wordArr.wordInfo.push({
+							"nodes" : [bookArr[i].isbn],
+							"text" : processedWord,
+							"size" : 1,
+							"averageStars" : parseFloat(bookArr[i].averageStars)
+						});
+					} else {
+
+						if(!isbnExists(bookArr[i].isbn, wordArr.wordInfo[nodePosition].nodes)){
+							var newValue = bookArr[i].averageStars;
+							var previousAverageValue = wordArr.wordInfo[nodePosition].averageStars;
+							var previousNumberItems = wordArr.wordInfo[nodePosition].size;
+							var totalNumberItems = (wordArr.wordInfo[nodePosition].size+1);
+							var summedValues = newValue + (previousAverageValue * previousNumberItems);
+							var finalAverage = summedValues / totalNumberItems;
+						
+							wordArr.wordInfo[nodePosition].averageStars = finalAverage;
+							wordArr.wordInfo[nodePosition].nodes.push(bookArr[i].isbn);
+							wordArr.wordInfo[nodePosition].size++;
+							//get average of all averageStars	
+						}
+					}
+				}
+			}
+		}
+		wordArrNorm = normalizeTextSize(wordArr.wordInfo);
+		createVisualization(wordArrNorm, bookArr);
+	}
+	
+	function normalizeTextSize(arr) {
+		var maxSize = 0;
+		for(var i=0; i<arr.length; i++) {
+			if(arr[i].size > maxSize) {
+				maxSize = arr[i].size;
+			}
+		}
+		
+		for(var i=0; i<arr.length; i++) {
+			var currSize = arr[i].size;
+			arr[i].size = (currSize/maxSize)*10;
+		}
+		return arr;
+	}
+		
+	function getNodePosition(node, arr) {
+		if(arr == null) {
+			return -1;
+		}
+		for(var i=0; i<arr.length; i++) {
+			//console.log(relationsArray.nodes[i].id +" iz " + node);
+			if(arr[i].text === node) {
+				//return position in array
+				return i;
+			}
+		}
+		//return err value
+		return -1;
+	}
+	
+	function isbnExists(isbn, arr) {
+		for(var i=0; i<arr.length; i++) {
+			if(arr[i] == isbn) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	function getBookDetails(node, arr) {
+		if(arr == null) {
+			return null;
+		}
+		for(var i=0; i<arr.length; i++) {
+			if(arr[i].isbn == node) {
+				//return position in array
+				return arr[i];
+			}
+		}
+		//return err value
+		return null;
+	}
+	
+
+	
+    var color = d3.scale.linear()
+			.domain([0,3,3.5,4,4.5,5])
+            .range(["#333333", "#cc0000", "#ff6666", "#808080", "#00ccff", "#009933"]);
+
+			
+	function createVisualization(frequency_list, bookArr) {
+		//Hide the loading status
+		d3.select("#loading_status").classed("hidden", true);
+	
+		d3.layout.cloud().size([1200, 720])
+				.words(frequency_list)
+				.rotate(0)
+				.fontSize(function(d) { return d.size; })
+				.on("end", draw)
+				.start();
+
+		function draw(words) {
+			//svg for tag cloud			
+			var svg = d3.select("body").append("svg").attr("width", 1200).attr("height", 720).attr("class", "wordcloud");
+			var bookViewer = d3.select("body").append("svg").attr("width", 1920).attr("height", 300);
+					
+			svg.append("g")
+					// without the transform, words words would get cutoff to the left and top, they would appear outside of the SVG area
+					.attr("transform", "translate(580,360) scale(1.75,1.75)")
+					
+					.selectAll("text")
+					.data(words)
+					.enter().append("text")
+					.style("font-size", function(d) { return d.size * 2 + "px"; })
+					.style("fill", function(d, i) { return color(d.averageStars); })
+					.style("opacity", 0.8)
+					.attr("transform", function(d) {
+						return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+					})
+					.text(function(d) { return d.text; })
+					
+					.on("mouseover", function(d) {
+						d3.select(this).style("cursor", "pointer")
+						.style("opacity", 1)
+						.style("fill", "#7F0000");
+					})
+					.on("mouseout", function(d) {
+						d3.select(this).style("cursor", "default")
+						.transition().duration(300)
+						.style("opacity", 0.8)
+						.style("fill", function(d, i) { return color(d.averageStars); });
+					})
+					
+					.on("click", function(d) {
+						d3.select(this).style("fill", "red");					
+
+						bookViewer.selectAll("image").remove();
+						
+						for(var i=0; i<d.nodes.length; i++) {
+							var bookDetails = getBookDetails(d.nodes[i], bookArr);							
+							var book = bookViewer.append("image")
+									.attr("xlink:href", function(d){
+										return bookDetails.coverImage;//"data:image/jpg;base64," + bookDetails.coverImage;
+									})
+									.attr("x", (i*30) + 50)// + (960 - d.nodes.length*10))
+									.attr("y", 50)
+									//.attr("width", 200)
+									.attr("height", 200)
+									.attr("opacity", 0.7)
+									
+									//define data to pass to mouseover functions
+									.data([bookDetails])
+									
+									.on("click", handleBookMouseClick)
+									.on("mouseover", handleBookMouseOver)
+									.on("mouseout", handleBookMouseOut)									
+
+									};
+							});
+		}
+	}
+	
+	function handleBookMouseClick(d) {
+		//helper.js
+		showToolTip(d);												
+	}
+	
+	function handleBookMouseOver(d) {
+		//move element to front 
+		d3.select(this).moveToFront()
+	}
+	
+	function handleBookMouseOut(d) {
+		//move element to back 
+		d3.select(this).moveToBack()
+		.attr("opacity", 0.7);
+		//hide the tooltip
+		//d3.select("#tooltip").classed("hidden", true);
+	}
+	
+</script>
+
+</body>
+
+</html>

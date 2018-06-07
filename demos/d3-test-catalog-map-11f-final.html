@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3: Setting path fills</title>
+		<script type="text/javascript" src="../d3/d3.v3.js"></script>
+		<style type="text/css">
+			#tooltip {
+				position: absolute;
+				width: 400px;
+				height: 200px;
+				left: 50px;
+				top: 300px;
+				background-color: none;
+				padding: 0px;
+				/*-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				pointer-events: none;*/
+			}
+			
+			#overlay {
+				position: absolute;
+				width: 1920px;
+				height: 1080px;
+				left: 0px;
+				top: 0px;
+				background-color: none;
+				pointer-events: none;
+			}
+			
+			#tooltip.hidden {
+				display: none;
+			}
+			
+			#tooltip p {
+				margin: 0;
+				font-family: sans-serif;
+				font-size: 12px;
+				line-height: 20px;
+			}
+			
+			#tooltip img {
+				 /*float: left;*/
+			}	
+			
+			/* hide scrollbars */
+			body::-webkit-scrollbar { 
+				display: none; 
+			}
+		</style>
+	</head>
+	<body>
+	
+	
+		<div id="tooltip" class="hidden">
+			<img id="cover"/>
+			<p><strong><span id="title">Important Label Heading</span></strong></p>
+			<p><span id="value"></span></p>
+		</div>
+		
+		<div id="overlay" class="hidden">
+		</div>
+	
+
+		
+
+		
+		<script type="text/javascript">
+
+			//Width and height
+			var w = 1920;
+			var h = 1080;
+
+				var NUMBER_OF_ELEMENTS = 6000;
+			
+			//Define map projection
+			/*var projection = d3.geo.albersUsa()
+								   .translate([w/2, h/2])
+								   .scale([500]);*/
+			
+			var path = d3.geo.path()
+		.projection(d3.geo.mercator()
+        .rotate([20, 0])
+        //.parallels( [60.0, 68.0] )
+        //.scale(3000)
+        .translate([300, 300])
+		);
+
+			//Define path generator
+			//var path = d3.geo.path()
+				//			 .projection(projection);
+
+			//Create SVG element
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			//Load json data (books)
+			d3.json("data/urealBiol.json", function(data) {
+				var bookArray = {
+					bookinfo: []
+				};
+				
+				var counter = 0;
+				data.forEach(function(d) {
+						//if(counter < NUMBER_OF_ELEMENTS && d.amazon.averageStars > 0 && getDDC(d.alma.classifications) > 0) {
+
+						if(counter < NUMBER_OF_ELEMENTS) {
+							bookArray.bookinfo.push({
+								"isbn" : d.amazon.ISBN10,
+								"title" : d.alma.title,
+								"description" : d.amazon.description,
+								"subjects" : getSubjectHeadings(d.alma.subjects),
+								//"alsoBought" : d.amazon.alsoBoughtBooks,
+								"averageStars": parseFloat(d.amazon.averageStars),
+								//"classifications" : d.alma.classifications,
+								"coverImage" : d.amazon.image.$binary,
+								//"wordArray": d.amazon.description.split(" ") //description
+							});
+							counter++;
+						}
+				});
+				
+				//for(var i=0; i<bookArray.bookinfo[i].length; i++) {
+					console.log(bookArray.bookinfo[0]);
+				//checkForDdcInCollection(bookArray.bookinfo);
+				//}
+				loadGeoTranslations(bookArray.bookinfo);
+			});
+			
+			function loadGeoTranslations(bookArr) {
+				d3.tsv("data/geoterms_translation.tsv", 	function(data) {
+					console.log(data[0]);
+					loadMap(bookArr, data);
+				});
+				
+			}
+			
+			//get details for a given book
+			function getBookDetails(node, arr) {
+				console.log("node="+node + "arr=" +arr);
+				if(arr == null) {
+					return null;
+				}
+				for(var i=0; i<arr.length; i++) {
+					//console.log(relationsArray.nodes[i].id +" iz " + node);
+					console.log("node="+node + "arr=" +arr[i].isbn);
+					if(arr[i].isbn === node) {
+						//return position in array
+						return arr[i];
+					}
+				}
+				//return err value
+				return null;
+			}
+			
+			//check if item has ddc number
+			function isSubjectHeading(item) {
+				if (item.type === 651) {
+					return true;
+				} 
+				//invalidEntries++;
+				return false; 
+			}
+			
+			//get ddc number for a given item, return 0 if none
+			function getSubjectHeadings(e) {
+				//console.log(e);
+				var filteredArray = e.filter(isSubjectHeading);
+				console.log(filteredArray);
+				if(filteredArray.length>0 && typeof filteredArray[0].term != 'undefined') {
+					//console.log(filteredArray);
+					return filteredArray[0].term;
+				} else { 
+					return -1;
+				}
+			}
+			
+			function loadMap(bookArr, translArr) {			
+				//Load in GeoJSON data
+				d3.json("data/worldmap.json", function(mapArr) {
+					mapArr = translateGeonames(mapArr, translArr);
+					console.log(mapArr);
+					//create custom arr to store book details
+					mapArr.books = [];
+					for(var i=0; i<mapArr.features.length; i++) {
+						mapArr.features[i].properties.numberOfBooks = 0;
+						mapArr.features[i].properties.isbns = [];
+						for(var j=0; j<bookArr.length; j++) {
+							if(bookArr[j].subjects != -1) { 
+								if(mapArr.features[i].properties.admin===bookArr[j].subjects) {
+									//add all book details to separate Array
+									mapArr.books.push(bookArr[j]);
+									//add isbns for each place
+									mapArr.features[i].properties.numberOfBooks++;
+									mapArr.features[i].properties.isbns.push(bookArr[j].isbn);
+									console.log(mapArr.features[i].properties.isbns);
+								}
+							}
+						}
+					}
+					createVisualization(mapArr);
+				});
+			}
+			
+				/*function getBookDetails(node, arr) {
+					if(arr == null) {
+						return null;
+					}
+					for(var i=0; i<arr.length; i++) {
+						//console.log(relationsArray.nodes[i].id +" iz " + node);
+						if(arr[i].isbn === node) {
+							//return position in array
+							return arr[i];
+						}
+					}
+					//return err value
+					return null;
+				}*/
+			
+			function translateGeonames(mapA,translA) {
+				console.log("translating..");
+				for(var i=0; i<mapA.features.length; i++) {
+					for(var j=0; j<translA.length; j++) {
+
+						if(mapA.features[i].properties.admin.toLowerCase() === translA[j].eng.toLowerCase()) {
+							mapA.features[i].properties.admin = translA[j].norw;
+							console.log(translA[j].norw);
+						}
+					}
+				}
+				return mapA;
+			}
+			
+			var color = d3.scale.linear()
+            //.domain([0,1,2,3,4,5,6,10,15,20,100])
+			.domain([200,50,10,5,2,0])
+            .range(["#00441B", "#238B45", "#41AB5D", "#74C476", "#A1D99B", "#C7E9C0"]);
+			
+			var isClicked = false;
+			
+			function toggleIsClicked() {
+				if(isClicked) {
+					isClicked = false;
+				} else { 
+					isClicked = true;
+				}
+			}
+			
+			function getIsClickedValue() {
+				return isClicked;
+			}
+			
+			function emptyToolTip() {
+				d3.select("#tooltip")	
+					.select("#title")
+						.text("")
+					.select("#value")
+						.html("");
+			}
+			
+			function createVisualization(mapObj) {
+			  //Bind data and create one path per GeoJSON feature
+				svg.selectAll("path")
+				   .data(mapObj.features)
+				   .enter()
+				   .append("path")
+				   .attr("d", path)
+				   .attr("opacity", 0.3)
+				   .style("fill", function(d, i) { return color(d.properties.numberOfBooks); })
+				   /*.on("mouseover", function(d) {
+						console.log("mousey" + d.properties.name + " " + d.properties.numberOfBooks );*/
+						/*var currNod = d3.selectAll("rect");
+						currNod.append("rect")
+						.attr("x", 0)
+						.attr("y", 0)
+						.attr("width", 1000)
+						.attr("height", 2000)
+						.attr("fill", */
+	/*				})*/
+					.on("mouseover", function(d) {
+					//Get this bar's x/y values, then augment for the tooltip
+						//var xPosition = parseFloat(d3.select(this).attr("x")) + 50; //+ xScale.rangeBand() / 3;
+						//var yPosition = parseFloat(d3.select(this).attr("y")) + 50;
+						//if(!isClicked) {
+						var coordinates = [0, 0];
+						coordinates = d3.mouse(this);
+						var xPosition = coordinates[0] + 9;
+						var yPosition = coordinates[1] + 9;
+						
+						d3.select(this).attr("opacity", 1)
+						
+						////Update the tooltip position and value
+						d3.select("#tooltip")
+							.style("height", 50 + "px")
+							.style("left", xPosition + "px")
+							.style("top", yPosition + "px")						
+							.select("#value")
+							.html("");
+							
+						d3.select("#tooltip")	
+							.select("#title")
+							.text(d.properties.name + " (" + d.properties.numberOfBooks + ")");
+							
+						d3.select("#tooltip")
+							.on("mouseover", function() {
+								d3.select("#tooltip").classed("hidden", false);
+							})
+							.on("mouseout", function() {
+								d3.select("#tooltip").classed("hidden", true);
+							});
+							//.select("#cover")
+							//.attr("src","data:image/jpg;base64," + d.coverImage); 
+						
+						//Show the tooltip
+						d3.select("#tooltip").classed("hidden", false);
+						//}
+					})
+					.on("mouseout", function() {			   
+						//if(getIsClickedValue===false) {
+						//Hide the tooltip
+						d3.select("#tooltip").classed("hidden", true);
+						d3.select(this).attr("opacity", .7)
+						//}*/
+				   })
+				   	.on("click", function(d) {
+						var coordinates = [0, 0];
+						coordinates = d3.mouse(this);
+						var xPosition = coordinates[0] + 9;
+						var yPosition = coordinates[1] + 9;
+						////Update the tooltip position and value
+						d3.select("#tooltip")
+							.style("left", xPosition + "px")
+							.style("top", yPosition + "px")		
+						var inclBooks = "";
+						if(d.properties.isbns.length>0) {
+							for(var i=0; i<d.properties.isbns.length; i++) {
+								//inclBooks = inclBooks + "<a href=''>" + getBookDetails(d.properties.isbns[i],mapObj.books).title + "</a><br/>";
+								inclBooks = inclBooks + "<img width='40' src='data:image/png;base64,"+ getBookDetails(d.properties.isbns[i],mapObj.books).coverImage + "'>&nbsp;";
+							}
+							
+							
+							//d3.select("#overlay")
+							//.style("pointer-events","auto");
+							
+							d3.select("#tooltip").classed("hidden", false)
+							
+							isClicked = true;
+							d3.select("#tooltip")
+								.select("#value")
+								.html(inclBooks);
+								
+							
+							
+							//.html(d.properties.name + " (<u>close</u>)")
+							//.on("click", function(d) {
+								
+									//.classed("hidden", false)
+									
+							//});
+						}
+				   })
+			}
+		</script>
+	</body>
+</html>

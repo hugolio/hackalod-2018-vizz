@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Visual Navigation Demos - Ximpel</title>
+		<link rel="stylesheet" href="ximpel/ximpel.css" type="text/css" />
+		<style type="text/css">
+		html,body, #ximpel {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		</style>
+
+		<script type="text/javascript" src="jquery/jquery-1.12.3.min.js"></script>
+		<script type="text/javascript" src="hammer/hammer.min.js"></script>
+		<script type="text/javascript" src="ximpel/ximpel.js"></script>
+		<!-- custom media types -->
+		<script type="text/javascript" src="PDFViewer.js"></script>
+		<script type="text/javascript" src="MetadataVisualization.js"></script>
+		<!-- helper for book operations -->
+		<script type="text/javascript" src="bookManager.js"></script>
+		<!-- idle tracker and analytics functions-->
+		<script type="text/javascript" src="analytics.js?v=8"></script>
+		<script type="text/javascript" src="idletracker.js?v=8"></script>
+
+		<script type="text/javascript">
+
+			var app, timer, currentSubject, timeout, player;
+
+			var idleTracker = new IdleTracker({
+				mousemove: false,
+				limit: 120,  				// 120 seconds by default
+				rules: [
+					{
+						pattern: /^video:/,
+						pause: true,        // Idle timer is paused during videos
+					}
+				],
+			});
+
+			var analytics = new ximpel.Analytics(
+			 	'https://ub-www01.uio.no/microticks/api/',
+
+			 	// Generated from `cd /srv/ub-www01.uio.no/microticks/api && export FLASK_APP=microticks && . ENV/bin/activate && flask createconsumer visual-navigation-demos
+			 	'9bfc4d87d3f444438c487143394926f4', // Production key
+			 	// 'a67567e486f94e50869b5d1566c04c32' // Test key
+			 	//consumer=8 (?)
+			);
+			analytics.trackMeaninglessClicks = true;
+
+			function initApp(){
+
+				app = new ximpel.XimpelApp(
+					'ximpelapp',
+					'playlist.xml',
+					'config.xml',
+					{
+						'appElement': 'ximpel',
+					}
+				);
+
+				// After creating a XimpelApp object tell the object to load the given playlist and config file.
+				app.load( {
+					'autoPlay': true
+				}).done( function(){
+
+					// Connect Analytics to Ximpel
+					analytics.setXimpelApp(app);
+
+					// Connect IdleTracker to Ximpel
+					idleTracker.setXimpelApp(app);
+					idleTracker.setAnalytics(analytics);
+
+				}.bind(this));
+			}
+
+			var resizeTimer;
+
+			function onResize() {
+				clearTimeout(resizeTimer);
+
+				if (analytics) {
+					console.log('Ending session because of resize!');
+					analytics.stopSession('resize');
+				}
+
+				idleTracker.stop();
+
+				resizeTimer = setTimeout(function() {
+					$('#ximpel').empty();
+					$('#ximpel').removeAttr('style');
+					setTimeout(initApp);
+				}, 500);
+			}
+
+			$( document ).ready( onResize );
+			$( window ).on('resize', onResize );
+
+
+		</script>
+	</head>
+
+	<body>
+		<div id="ximpel"></div>
+	</body>
+</html>

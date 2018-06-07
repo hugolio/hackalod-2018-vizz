@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+<script src="d3/d3.js"></script>
+<script type="text/javascript" src="js/helper.js"></script>
+<script type="text/javascript" src="https://www.google.com/books/jsapi.js"></script>
+<script type="text/javascript">google.books.load();</script>
+<link rel="stylesheet" href="css/interface.css">
+
+	<div id="loading_status">
+		<p>Now loading...</p>
+	</div>
+	
+	<div id="chartid"></div>
+	
+<div id="tooltip" class="hidden">
+		<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="title" class="booktitle" width="100"><h1>Label Heading</h1></span>
+		</div>
+			
+		<div id="descr">
+			<img class="bookcover" id="bookcover"/>
+			<span id="bookdescr" class="bookdescription">Description</span>
+		</div>
+		
+		<div id="rating">
+			<span id="bookrat" class="bookrating">Description</span>
+		</div>
+
+		<div id="avail">
+			<span id="bookavail" class="availability">Description</span>
+		</div>
+			
+		<div id="actions">
+			<!--<img id="savebutton" class="savebutton" src="gui/saveButton.png">-->
+			<span id="previewbutton" class="button">Preview</span>
+			<span id="getbutton" class="button">Get this book</span>
+			<span id="savebutton" class="button">&#128077; Like</span>
+		</div>
+	</div>
+	
+	<div id="savedbooks" class="hidden">	
+		<span id="title" class="savedbookstitle"><p>Books you liked:</p></span>
+			<svg id="savedbookviewer" />
+	</div>
+	
+	<div id="getbookwindow" class="hidden">
+		<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="locatebooktitle" class="booktitle" width="100"><h1>Get this book</h1></span>
+		</div>
+		<div id="bookdetails">
+			<h3>Author and title</h3>
+		</div>
+		<div>
+			<h2>Library map</h2>
+		</div>
+		<div id="map">
+			<img class="bookmap" id="bookloc" src="" width="1000"  />
+		</div>
+		<div>
+			<p>Contact the library desk if you have trouble locating the book.</p>
+		</div>
+		<div id="actions">
+			<span id="" class="button">Send a link to my phone</span>
+		</div>
+	</div>
+	
+	<div id="previewbookwindow" style="visibility:hidden">
+    	<div id="header">
+			<img id="closebutton" class="closebutton" src="gui/closeButton.png">
+			<span id="locatebooktitle" class="booktitle" width="100"><h1>Preview this book</h1></span>
+		</div>
+		<div id="previewbookcanvas" />
+	</div>	
+
+<script>
+var width = 1800;
+var height = 1012;
+
+var maxVelocity = 8;
+
+var color = d3.scaleOrdinal().range(d3.schemeCategory20);
+
+/*original properties*/
+/*var nodes = Array.apply(null, Array(numParticles)).map(function (_, i) {
+    var size = Math.random() * 60 + 20
+    var velocity = Math.random() * 2 + 1
+    var angle = Math.random() * 360
+
+    return {
+        x: Math.random() * (width - size),
+        y: Math.random() * (height - size),
+        vx: velocity * Math.cos(angle * Math.PI / 180),
+        vy: velocity * Math.sin(angle * Math.PI / 180),
+        size: size,
+        fill: color(i)
+    }
+})*/
+
+var NUMBER_OF_ELEMENTS = 50;
+var MINIMUM_NUMBER_OF_STARS = 0;
+
+//nodes and clusters objects
+var nodes = [];
+			
+//always show books saved in earlier steps (helper.js)
+showSavedBooks();
+
+//read DDC classes/labels from json file (helper.js)
+readDDCClasses();
+
+//get input file from browser parameter			
+var inputFile = getParameterByName('file');
+if (inputFile==null) {
+	inputFile = "data/urealPensum.json";
+}
+			
+//Read json, create book info object (helper.js)
+initiateVisualization(inputFile, NUMBER_OF_ELEMENTS, MINIMUM_NUMBER_OF_STARS);
+
+function initiateVisualization(inputFile, numElements, minStars) {	
+	//in helper.js
+	readBookJSON(inputFile, numElements, minStars, function(d) {
+		//callback
+		console.log(d)
+		createBookElements(d);
+	});
+}						
+
+function createBookElements(bookInfoArr) {
+	var nodes = Array.apply(null, Array(bookInfoArr.length)).map(function (_, i) {
+		console.log(bookInfoArr[i]);
+		var size = 5;
+		if(bookInfoArr[i].averageStars == 0) {
+			size = 50;
+		} else {
+			size = Math.floor(bookInfoArr[i].averageStars * 30); //7
+		//.attr("x", 100)
+		}
+		var velocity = Math.random() * 2 + 1;
+		var angle = Math.random() * 360;
+
+		return {
+			x: Math.random() * (width - size),
+			y: Math.random() * (height - size),
+			vx: velocity * Math.cos(angle * Math.PI / 180),
+			vy: velocity * Math.sin(angle * Math.PI / 180),
+			size: size,
+			coverImage: bookInfoArr[i].coverImage,
+			description: bookInfoArr[i].description,
+			classification: bookInfoArr[i].classification,
+			averageStars: bookInfoArr[i].averageStars,
+			title: bookInfoArr[i].title,
+			isbn: bookInfoArr[i].isbn,
+			fill: color(i),
+			mmsID: bookInfoArr[i].mmsID
+		}
+		});
+    
+    createViz(nodes)
+}
+
+			
+			var relationsArray = {
+					"nodes" : [],
+					"links" : []
+				};
+			
+			
+			function exists(node) {
+				for(var i=0; i<relationsArray.nodes.length; i++) {
+					if(parseInt(relationsArray.nodes[i].id) === node) {
+						return true;
+					}
+				}
+				return false;
+			}
+			
+			function checkForDdcInCollection(bookArr) {
+					for(var i=0; i<bookArr.length; i++) {
+						//check  value from this level
+						var counter = 0;
+						for(var j=0; j<bookArr.length;j++) {
+
+							var ddcArr1 = getDDC(bookArr[i].classifications);
+						    var ddcArr2 = getDDC(bookArr[j].classifications);
+								
+							if(ddcArr1!= null && ddcArr2 != null && ddcArr1.length>0 && ddcArr2.length>0 && typeof ddcArr1[0].number != 'undefined' && typeof ddcArr2[0].number != 'undefined' ) {
+							
+							for(var k=0; k<ddcArr1.length; k++) {
+								for(var l=0; l<ddcArr2.length; l++) {
+									//match based on first 3 characters to widen # matches, prevent duplicates
+
+									if(ddcArr1[k].number.substring(0,5) === ddcArr2[l].number.substring(0,5) && bookArr[i].title !== bookArr[j].title) {
+											
+											relationsArray.links.push({"source": parseInt(bookArr[i].isbn), "target": parseInt(bookArr[j].isbn) });
+										
+											if(!exists(parseInt(bookArr[i].isbn))) { 
+												relationsArray.nodes.push({"id": parseInt(bookArr[i].isbn), "title" : bookArr[i].title, "classification" : getConcatStringFromDDCArr(ddcArr1), "averageStars" : bookArr[i].averageStars, "coverImage" : bookArr[i].coverImage, "description" : bookArr[i].description, "isbn" : bookArr[i].isbn});
+											}
+											if(!exists(parseInt(bookArr[j].isbn))) {
+												relationsArray.nodes.push({"id": parseInt(bookArr[j].isbn), "title" : bookArr[j].title, "classification" : getConcatStringFromDDCArr(ddcArr2),  "averageStars" : bookArr[j].averageStars, "coverImage" : bookArr[j].coverImage, "description" : bookArr[j].description, "isbn" : bookArr[j].isbn});
+											}
+									} else {
+										//console.log("no");
+									}
+									}
+								}
+							}
+							
+							
+							
+						}
+					}
+				console.log(relationsArray);
+				createVisualization(relationsArray);
+			}
+			
+			function getConcatStringFromDDCArr(arr) {
+				var str=""; 
+				for(var m = 0; m < arr.length; m++) {
+					if(str==="") {
+						str = arr[m].number;
+					} else {						
+						str = str + ", " + arr[m].number; 
+					}
+				}
+				return str;
+			}
+			
+			function checkForIsbnInCollection(bookArr) {
+				//todo: check isbn10 vs 13 if needed
+					for(var i=0; i<bookArr.length; i++) {
+						//check isbn value from this level
+						for(var j=0; j<bookArr.length;j++) {
+							for(var k=0; k<bookArr[j].alsoBought.length; k++) {
+								if(bookArr[i].isbn === bookArr[j].alsoBought[k]) {
+										relationsArray.links.push({"source": parseInt(bookArr[i].isbn), "target": parseInt(bookArr[j].isbn) });
+									
+										if(!exists(parseInt(bookArr[i].isbn))) { 
+											relationsArray.nodes.push({"id": parseInt(bookArr[i].isbn), "title" : bookArr[i].title, "classification" : bookArr[i].classification, "averageStars" : bookArr[i].averageStars, "coverImage" : bookArr[i].coverImage, "description" : bookArr[i].description});
+										}
+										if(!exists(parseInt(bookArr[j].isbn))) {
+											relationsArray.nodes.push({"id": parseInt(bookArr[j].isbn), "title" : bookArr[j].title, "classification" : bookArr[j].classification,  "averageStars" : bookArr[j].averageStars, "coverImage" : bookArr[j].coverImage, "description" : bookArr[j].description});
+										}
+								} else {
+									//console.log("no");
+								}
+							}
+						}
+					}
+				console.log(relationsArray);
+				createVisualization(relationsArray);
+			}
+			
+			//check if item has ddc number
+			function isDDC(item) {
+				if (item.system === "ddc") {
+					return true;
+				} 
+				//invalidEntries++;
+				return false; 
+			}
+			
+			//get ddc number for a given item, return 0 if none
+			function getDDC(e) {
+				//console.log(e);
+				var filteredArray = e.filter(isDDC);
+				if(filteredArray.length>0 && typeof filteredArray[0].number != 'undefined') {
+					return filteredArray;
+				} else { 
+					return null;
+				}
+			}
+
+function createViz(nodes) {
+	//Hide the loading status
+		d3.select("#loading_status").classed("hidden", true);
+
+	var drag = d3.drag()
+		.on('start', dragStarted)
+		.on('drag', dragged)
+		.on('end', dragEnded)
+
+	var svg = d3.select('body').append('svg');
+	var rects = svg
+			.attr('width', width)
+			.attr('height', height)
+			.selectAll('image')
+			.data(nodes)
+			.enter().append('image')
+			//.style('fill', function (d) { return d.fill })
+			.attr("xlink:href", function(d, i){
+				return "data:image/jpg;base64," + d.coverImage;
+			})
+			.attr('width', function (d) { return d.size })
+			//[todo] issue: bounding box doesn't match (needs sizeX and Y)
+			.attr('height', function (d) { return d.size })
+			.attr('x', function (d) { return d.x })
+			.attr('y', function (d) { return d.y })
+			.attr('opacity', .6)
+			.call(drag)
+			.on("click", function(d) {
+				//Get this bar's x/y values, then augment for the tooltip
+				d3.select(this).attr("opacity", 1)				
+				//js/helper.js
+				showToolTip(d);
+		    })
+		  	.on("mouseout", function() {			   
+				//Hide the tooltip
+				d3.select(this).transition().duration(300)
+				.attr("opacity", .6);
+				//d3.select("#tooltip").classed("hidden", true);
+		  	});
+
+
+	var collisionForce = rectCollide()
+		.size(function (d) { return [d.size, d.size] })
+
+	var boxForce = boundedBox()
+		.bounds([[0, 0], [width, height]])
+		.size(function (d) { return [d.size, d.size] })
+
+	d3.forceSimulation()
+		.velocityDecay(0)
+		.alphaTarget(1)
+		.on('tick', ticked)
+		.force('box', boxForce)
+		.force('collision', collisionForce)
+		.nodes(nodes)
+
+	function rectCollide() {
+		var nodes, sizes, masses
+		var size = constant([0, 0])
+		var strength = 1
+		var iterations = 1
+
+		function force() {
+			var node, size, mass, xi, yi
+			var i = -1
+			while (++i < iterations) { iterate() }
+
+			function iterate() {
+				var j = -1
+				var tree = d3.quadtree(nodes, xCenter, yCenter).visitAfter(prepare)
+
+				while (++j < nodes.length) {
+					node = nodes[j]
+					size = sizes[j]
+					mass = masses[j]
+					xi = xCenter(node)
+					yi = yCenter(node)
+
+					tree.visit(apply)
+				}
+			}
+
+			function apply(quad, x0, y0, x1, y1) {
+				var data = quad.data
+				var xSize = (size[0] + quad.size[0]) / 2
+				var ySize = (size[1] + quad.size[1]) / 2
+				if (data) {
+					if (data.index <= node.index) { return }
+
+					var x = xi - xCenter(data)
+					var y = yi - yCenter(data)
+					var xd = Math.abs(x) - xSize
+					var yd = Math.abs(y) - ySize
+
+					if (xd < 0 && yd < 0) {
+						var l = Math.sqrt(x * x + y * y)
+						var m = masses[data.index] / (mass + masses[data.index])
+
+						if (Math.abs(xd) < Math.abs(yd)) {
+							node.vx -= (x *= xd / l * strength) * m
+							data.vx += x * (1 - m)
+						} else {
+							node.vy -= (y *= yd / l * strength) * m
+							data.vy += y * (1 - m)
+						}
+					}
+				}
+
+				return x0 > xi + xSize || y0 > yi + ySize ||
+					   x1 < xi - xSize || y1 < yi - ySize
+			}
+
+			function prepare(quad) {
+				if (quad.data) {
+					quad.size = sizes[quad.data.index]
+				} else {
+					quad.size = [0, 0]
+					var i = -1
+					while (++i < 4) {
+						if (quad[i] && quad[i].size) {
+							quad.size[0] = Math.max(quad.size[0], quad[i].size[0])
+							quad.size[1] = Math.max(quad.size[1], quad[i].size[1])
+						}
+					}
+				}
+			}
+		}
+
+		function xCenter(d) { return d.x + d.vx + sizes[d.index][0] / 2 }
+		function yCenter(d) { return d.y + d.vy + sizes[d.index][1] / 2 }
+
+		force.initialize = function (_) {
+			sizes = (nodes = _).map(size)
+			masses = sizes.map(function (d) { return d[0] * d[1] })
+		}
+
+		force.size = function (_) {
+			return (arguments.length
+				 ? (size = typeof _ === 'function' ? _ : constant(_), force)
+				 : size)
+		}
+
+		force.strength = function (_) {
+			return (arguments.length ? (strength = +_, force) : strength)
+		}
+
+		force.iterations = function (_) {
+			return (arguments.length ? (iterations = +_, force) : iterations)
+		}
+
+		return force
+	}
+
+	function boundedBox() {
+		var nodes, sizes
+		var bounds
+		var size = constant([0, 0])
+
+		function force() {
+			var node, size
+			var xi, x0, x1, yi, y0, y1
+			var i = -1
+			while (++i < nodes.length) {
+				node = nodes[i]
+				size = sizes[i]
+				xi = node.x + node.vx
+				x0 = bounds[0][0] - xi
+				x1 = bounds[1][0] - (xi + size[0])
+				yi = node.y + node.vy
+				y0 = bounds[0][1] - yi
+				y1 = bounds[1][1] - (yi + size[1])
+				if (x0 > 0 || x1 < 0) {
+					node.x += node.vx
+					node.vx = -node.vx
+					if (node.vx < x0) { node.x += x0 - node.vx }
+					if (node.vx > x1) { node.x += x1 - node.vx }
+				}
+				if (y0 > 0 || y1 < 0) {
+					node.y += node.vy
+					node.vy = -node.vy
+					if (node.vy < y0) { node.vy += y0 - node.vy }
+					if (node.vy > y1) { node.vy += y1 - node.vy }
+				}
+			}
+		}
+
+		force.initialize = function (_) {
+			sizes = (nodes = _).map(size)
+		}
+
+		force.bounds = function (_) {
+			return (arguments.length ? (bounds = _, force) : bounds)
+		}
+
+		force.size = function (_) {
+			return (arguments.length
+				 ? (size = typeof _ === 'function' ? _ : constant(_), force)
+				 : size)
+		}
+
+		return force
+	}
+
+	function ticked() {
+		rects
+			.attr('x', function (d) { return d.x })
+			.attr('y', function (d) { return d.y })
+	}
+
+	var px, py, vx, vy, offsetX, offsetY
+
+	function dragStarted(d) {
+		vx = 0
+		vy = 0
+		offsetX = (px = d3.event.x) - (d.fx = d.x)
+		offsetY = (py = d3.event.y) - (d.fy = d.y)
+	}
+
+	function dragged(d) {
+		vx = d3.event.x - px
+		vy = d3.event.y - py
+		d.fx = Math.max(Math.min((px = d3.event.x) - offsetX, width - d.size), 0)
+		d.fy = Math.max(Math.min((py = d3.event.y) - offsetY, height - d.size), 0)
+	}
+
+	function dragEnded(d) {
+		var vScalingFactor = maxVelocity / Math.max(Math.sqrt(vx * vx + vy * vy), maxVelocity)
+		d.fx = null
+		d.fy = null
+		d.vx = vx * vScalingFactor
+		d.vy = vy * vScalingFactor
+	}
+
+	function constant(_) {
+		return function () { return _ }
+	}
+
+}
+
+</script>
+</body>

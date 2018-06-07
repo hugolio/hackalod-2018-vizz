@@ -1,0 +1,1106 @@
+0_Computer science, information & general works
+00_Computer science, knowledge & systems
+000_Computer science, information & general works
+001_Knowledge
+002_The book (writing, libraries, and book related topics)
+003_Systems
+004_Data processing & computer science
+005_Computer programming, programs & data
+006_Special computer methods
+01_Bibliographies
+010_Bibliography
+011_Bibliographies
+012_Bibliographies of individuals
+013_[Unassigned]
+014_Bibliographies of anonymous & pseudonymous works
+015_Bibliographies of works from specific places
+016_Bibliographies of works on specific subjects
+017_General subject catalogs
+018_Catalogs arranged by author, date, etc.
+019_Dictionary catalogs
+02_Library & information sciences
+020_Library & information sciences
+021_Library relationships (with archives, information centers, etc.)
+022_Administration of physical plant
+023_Personnel management
+024_[Unassigned]
+025_Library operations
+026_Libraries for specific subjects
+027_General libraries
+028_Reading & use of other information media
+029_[Unassigned]
+03_Encyclopedias & books of facts
+030_General encyclopedic works
+031_Encyclopedias in American English
+032_Encyclopedias in English
+033_Encyclopedias in other Germanic languages
+034_Encyclopedias in French, Occitan, and Catalan
+035_Encyclopedias in Italian, Romanian, and related languages
+036_Encyclopedias in Spanish & Portuguese
+037_Encyclopedias in Slavic languages
+038_Encyclopedias in Scandinavian languages
+039_Encyclopedias in other languages
+04_Unassigned (formerly Biographies)
+05_Magazines, journals & serials
+050_General serial publications
+051_Serials in American English
+052_Serials in English
+053_Serials in other Germanic languages
+054_Serials in French, Occitan, and Catalan
+055_Serials in Italian, Romanian, and related languages
+056_Serials in Spanish & Portuguese
+057_Serials in Slavic languages
+058_Serials in Scandinavian languages
+059_Serials in other languages
+06_Associations, organizations & museums
+060_General organizations & museum science
+061_Organizations in North America
+062_Organizations in British Isles; in England
+063_Organizations in central Europe; in Germany
+064_Organizations in France & Monaco
+065_Organizations in Italy & adjacent islands
+066_Organizations in Iberian peninsula & adjacent islands
+067_Organizations in eastern Europe; in Russia
+068_Organizations in other geographic areas
+069_Museum science
+07_News media, journalism & publishing
+070_News media, journalism, and publishing
+071_Newspapers in North America
+072_Newspapers in British Isles; in England
+073_Newspapers in central Europe; in Germany
+074_Newspapers in France & Monaco
+075_Newspapers in Italy & adjacent islands
+076_Newspapers in Iberian peninsula & adjacent islands
+077_Newspapers in eastern Europe; in Russia
+078_Newspapers in Scandinavia
+079_Newspapers in other geographic areas
+08_Quotations
+080_General collections
+081_Collections in American English
+082_Collections in English
+083_Collections in other Germanic languages
+084_Collections in French, Occitan, Catalan
+085_Collections in Italian, Romanian, & related languages
+086_Collections in Spanish & Portuguese
+087_Collections in Slavic languages
+088_Collections in Scandinavian languages
+089_Collections in other languages
+09_Manuscripts & rare books
+090_Manuscripts and rare books
+091_Manuscripts
+092_Block books
+093_Incunabula
+094_Printed books
+095_Books notable for bindings
+096_Books notable for illustrations
+097_Books notable for ownership or origin
+098_Prohibited works, forgeries, and hoaxes
+099_Books notable for format
+1_Philosophy & psychology
+10_Philosophy
+100_Philosophy & psychology
+101_Theory of philosophy
+102_Miscellany
+103_Dictionaries & encyclopedias
+104_[Unassigned]
+105_Serial publications
+106_Organizations & management
+107_Education, research, related topics of philosophy
+108_Groups of people
+109_History & collected biography
+11_Metaphysics
+110_Metaphysics
+111_Ontology
+112_No longer used—formerly Methodology
+113_Cosmology (Philosophy of nature)
+114_Space
+115_Time
+116_Change
+117_Structure
+118_Force and energy
+119_Number and quantity
+12_Epistemology
+120_Epistemology, causation, and humankind
+121_Epistemology (Theory of knowledge)
+122_Causation
+123_Determinism and indeterminism
+124_Teleology
+125_No longer used—formerly Infinity
+126_The self
+127_The unconscious & the subconscious
+128_Humankind
+129_Origin & destiny of individual souls
+13_Parapsychology & occultism
+130_Parapsychology & occultism
+131_Parapsychological and occult methods for achieving well-being, happiness, success
+132_No longer used—formerly Mental derangements
+133_Specific topics in parapsychology & occultism
+134_No longer used—formerly Mesmerism & Clairvoyance
+135_Dreams & mysteries
+136_No longer used—formerly Mental characteristics
+137_Divinatory graphology
+138_Physiognomy
+139_Phrenology
+140_Philosophical schools of thought
+14_Specific philosophical schools and viewpoints
+141_Idealism & related systems & doctrines
+142_Critical philosophy
+143_Bergsonism & intuitionism
+144_Humanism & related systems & doctrines
+145_Sensationalism
+146_Naturalism & related systems & doctrines
+147_Pantheism & related systems & doctrines
+148_Dogmatism, eclecticism, liberalism, syncretism, & traditionalism
+149_Other philosophical systems & doctrines
+15_Psychology
+150_Psychology
+151_No longer used—formerly Intellect
+152_Sensory perception, movement, emotions, & physiological drives
+153_Conscious mental processes & intelligence
+154_Subconscious & altered states & processes
+155_Differential & developmental psychology
+156_Comparative psychology
+157_No longer used—formerly Emotions
+158_Applied psychology
+159_No longer used—formerly Will
+16_Philosophical logic
+160_Philosophical logic
+161_Induction
+162_Deduction
+163-164_Not assigned or no longer used
+165_Fallacies & sources of error
+166_Syllogisms
+167_Hypotheses
+168_Argument & persuasion
+169_Analogy
+17_Ethics
+170_Ethics (Moral philosophy)
+171_Ethical systems
+172_Political ethics
+173_Ethics of family relationships
+174_Occupational ethics
+175_Ethics of recreation, leisure, public performances, communication
+176_Ethics of sex & reproduction
+177_Ethics of social relations
+178_Ethics of consumption
+179_Other ethical norms
+18_Ancient, medieval, & Eastern philosophy
+180_Ancient, medieval, eastern philosophy
+181_Eastern philosophy
+182_Pre-Socratic Greek philosophies
+183_Sophistic, Socratic, related Greek philosophies
+184_Platonic philosophy
+185_Aristotelian philosophy
+186_Skeptic & Neoplatonic philosophies
+187_Epicurean philosophy
+188_Stoic philosophy
+189_Medieval Western philosophy
+190_Modern Western philosophy (19th-century, 20th-century)
+19_Modern Western & other noneastern philosophy
+191_Philosophy of the United States and Canada
+192_Philosophy of the British Isles
+193_Philosophy of Germany and Austria
+194_Philosophy of France
+195_Philosophy of Italy
+196_Philosophy of Spain and Portugal
+197_Philosophy of Russia
+198_Philosophy of Scandinavia & Finland
+199_Philosophy in other geographic areas
+2_Religion
+20_Religion
+200_Religion
+201_Religious mythology, general classes of religion, interreligious relations and attitudes, social theology
+202_Doctrines
+203_Public worship and other practices
+204_Religious experience, life, practice
+205_Religious ethics
+206_Leaders and organization
+207_Missions and religious education
+208_Sources
+209_Sects and reform movements
+21_Philosophy & theory of religion
+210_Philosophy & theory of religion
+211_Concepts of God
+212_Existence, ways of knowing God, attributes of God
+213_Creation
+214_Theodicy
+215_Science & religion
+216_No longer used—formerly Evil
+217_No longer used—formerly Prayer
+218_Humankind
+219_No longer used—formerly Analogies
+22_The Bible
+220_Bible
+221_Old Testament (Tanakh)
+222_Historical books of Old Testament
+223_Poetic books of Old Testament
+224_Prophetic books of Old Testament
+225_New Testament
+226_Gospels & Acts
+227_Epistles
+228_Revelation (Apocalypse)
+229_Apocrypha, pseudepigrapha, & intertestamental works
+230_Christianity
+23_Christianity
+231_God
+232_Jesus Christ & his family
+233_Humankind
+234_Salvation & grace
+235_Spiritual beings
+236_Eschatology
+237_No longer used—formerly Future state
+238_Creeds, confessions of faith, covenants, & catechisms
+239_Apologetics & polemics
+24_Christian practice & observance
+240_Christian moral and devotional theology
+241_Christian ethics
+242_Devotional literature
+243_Evangelistic writings for individuals and families
+244_No longer used—formerly Religious fiction
+245_No longer used—formerly Hymnology
+246_Use of art in Christianity
+247_Church furnishings & related articles
+248_Christian experience, practice, life
+249_Christian observances in family life
+250_Christian orders & local church
+25_Local Christian church and Christian religious orders
+251_Preaching (Homiletics)
+252_Texts of sermons
+253_Pastoral office and work (Pastoral theology)
+254_Parish administration
+255_Religious congregations & orders
+256_No longer used—formerly Religious societies
+257_No longer used—formerly Parochial schools, libraries, etc.
+258_No longer used—formerly Parochial medicine
+259_Pastoral care of families, of specific groups of people
+260_Social & ecclesiastical theology
+26_Christian social and ecclesiastical theology
+261_Social theology and interreligious relations and attitudes
+262_Ecclesiology
+263_Days, times, places of religious observance
+264_Public worship
+265_Sacraments, other rites & acts
+266_Missions
+267_Associations for religious work
+268_Religious education
+269_Spiritual renewal
+27_History of Christianity
+270_History, geographic treatment, biography of Christianity
+271_Religious congregations and orders in church history
+272_Persecutions in church history
+273_Doctrinal controversies and heresies in general church history
+274_Christianity in Europe
+275_Christianity in Asia
+276_Christianity in Africa
+277_Christianity in North America
+278_Christianity in South America
+279_History of Christianity in other areas
+28_Christian denominations
+280_Denominations and sects of Christian church
+281_Early church & Eastern churches
+282_Roman Catholic Church
+283_Anglican churches
+284_Protestant denominations of Continental origin & related body
+285_Presbyterian churches, Reformed churches centered in America, Congregational churches
+286_Baptist, Restoration Movement, Adventist churches
+287_Methodist churches; churches related to Methodism
+288_No longer used—formerly Unitarian
+289_Other denominations & sects
+29_Other religions
+290_Other religions
+291_No longer used—formerly Comparative religion
+292_Classical religion (Greek & Roman religion)
+293_Germanic religion
+294_Religions of Indic origin
+295_Zoroastrianism (Mazdaism, Parseeism)
+296_Judaism
+297_Islam, Bábism & Bahá'í Faith
+298_No longer used—formerly Mormonism
+299_Religions not provided for elsewhere
+3_Social sciences
+30_Social sciences, sociology & anthropology
+300_Social sciences
+301_Sociology & anthropology
+302_Social interaction
+303_Social processes
+304_Factors affecting social behavior
+305_Groups of people
+306_Culture & institutions
+307_Communities
+308_No longer used—formerly Polygraphy
+309_No longer used—formerly History of sociology
+31_Statistics
+310_Collections of general statistics
+311_No longer used—formerly Theory and methods
+312_No longer used—formerly Population
+313_No longer used—formerly Special topics
+314_General statistics of Europe
+315_General statistics of Asia
+316_General statistics of Africa
+317_General statistics of North America
+318_General statistics of South America
+319_General statistics of Australasia, Pacific Ocean islands, Atlantic Ocean islands, Arctic islands, Antarctica
+32_Political science
+320_Political science (Politics & government)
+321_Systems of governments & states
+322_Relation of state to organized groups & their members
+323_Civil & political rights
+324_The political process
+325_International migration & colonization
+326_Slavery & emancipation
+327_International relations
+328_The legislative process
+329_Not assigned or no longer used
+33_Economics
+330_Economics
+331_Labor economics
+332_Financial economics
+333_Economics of land & energy
+334_Cooperatives
+335_Socialism & related systems
+336_Public finance
+337_International economics
+338_Production
+339_Macroeconomics & related topics
+34_Law
+340_Law
+341_Law of nations
+342_Constitutional & administrative law
+343_Military, defense, public property, public finance, tax, commerce (trade), industrial law
+344_Labor, social service, education, cultural law
+345_Criminal law
+346_Private law
+347_Procedure & courts
+348_Laws, regulations, cases
+349_Law of specific jurisdictions, areas, socioeconomic regions, regional intergovernmental organizations
+35_Public administration & military science
+350_Public administration & military science
+351_Public administration
+352_General considerations of public administration
+353_Specific fields of public administration
+354_Public administration of economy & environment
+355_Military science
+356_Foot forces & warfare
+357_Mounted forces & warfare
+358_Air & other specialized forces & warfare; engineering & related services
+359_Sea forces & warfare
+36_Social problems & social services
+360_Social problems & services; associations
+361_Social problems & services
+362_Social problems of & services to groups of people
+363_Other social problems & services
+364_Criminology
+365_Penal & related institutions
+366_Secret associations & societies
+367_General clubs
+368_Insurance
+369_Associations
+37_Education
+370_Education
+371_Schools & their activities; special education
+372_Primary education (elementary education)
+373_Secondary education
+374_Adult education
+375_Curricula
+376_No longer used—formerly Education of women
+377_No longer used—formerly Ethical education
+378_Higher education (Tertiary education)
+379_Public policy issues in education
+38_Commerce, communications, & transportation
+380_Commerce, communications, transportation
+381_Commerce (Trade)
+382_International commerce (Foreign trade)
+383_Postal communication
+384_Communications
+385_Railroad transportation
+386_Inland waterway & ferry transportation
+387_Water, air, space transportation
+388_Transportation
+389_Metrology & standardization
+39_Customs, etiquette, & folklore
+390_Customs, etiquette, folklore
+391_Costume & personal appearance
+392_Customs of life cycle & domestic life
+393_Death customs
+394_General customs
+395_Etiquette (Manners)
+396_No longer used—formerly Women's position and treatment
+397_No longer used—formerly outcast studies
+398_Folklore
+399_Customs of war & diplomacy
+4_Language
+40_Language
+400_Language
+401_Philosophy & theory; international languages
+402_Miscellany
+403_Dictionaries, encyclopedias, concordances
+404_Special topics of language
+405_Serial publications
+406_Organizations & management
+407_Education, research, related topics
+408_Groups of people
+409_Geographic treatment & biography
+41_Linguistics
+410_Linguistics
+411_Writing systems of standard forms of languages
+412_Etymology of standard forms of languages
+413_Dictionaries of standard forms of languages
+414_Phonology & phonetics of standard forms of languages
+415_Grammar of standard forms of languages
+416_No longer used—formerly Prosody
+417_Dialectology & historical linguistics
+418_Standard usage (Prescriptive linguistics)
+419_Sign languages
+42_English & Old English languages
+420_English & Old English (Anglo-Saxon)
+421_Writing system, phonology, phonetics of standard English
+422_Etymology of standard English
+423_Dictionaries of standard English
+424_No longer used—formerly English thesauruses
+425_Grammar of standard English
+426_No longer used—formerly English prosodies
+427_Historical & geographical variations, modern nongeographic variations of English
+428_Standard English usage (Prescriptive linguistics)
+429_Old English (Anglo-Saxon)
+43_German & related languages
+430_German and related languages
+431_Writing systems, phonology, phonetics of standard German
+432_Etymology of standard German
+433_Dictionaries of standard German
+434_Not assigned or no longer used
+435_Grammar of standard German
+436_Not assigned or no longer used
+437_Historical & geographic variations, modern nongeographic variations of German
+438_Standard German usage (Prescriptive linguistics)
+439_Other Germanic languages
+44_French & related languages
+440_French & related Romance languages
+441_Writing systems, phonology, phonetics of standard French
+442_Etymology of standard French
+443_Dictionaries of standard French
+444_Not assigned or no longer used
+445_Grammar of standard French
+446_Not assigned or no longer used
+447_Historical and geographic variations, modern nongeographic variations of French
+448_Standard French usage (Prescriptive linguistics)
+449_Occitan Catalan, Franco-Provençal
+45_Italian, Romanian, & related languages
+450_Italian, Dalmatian, Romanian, Rhaetian, Sardinian, Corsican
+451_Writing systems, phonology, phonetics of standard Italian
+452_Etymology of standard Italian
+453_Dictionaries of standard Italian
+454_Not assigned or no longer used
+455_Grammar of standard Italian
+456_Not assigned or no longer used
+457_Historical & geographic variations, modern nongeographic variations of Italian
+458_Standard Italian usage (Prescriptive linguistics)
+459_Romanian, Rhaetian, Sardinian, Corsican
+46_Spanish, Portuguese, Galician
+460_Spanish, Portuguese, Galician
+461_Writing systems, phonology, phonetics of standard Spanish
+462_Etymology of standard Spanish
+463_Dictionaries of standard Spanish
+464_Not assigned or no longer used
+465_Grammar of standard Spanish
+466_Not assigned or no longer used
+467_Historical & geographic variations, modern nongeographic variations of Spanish
+468_Standard Spanish usage (Prescriptive linguistics)
+469_Portuguese
+47_Latin & Italic languages
+470_Latin & related Italic languages
+471_Writing systems, phonology, phonetics of classical Latin
+472_Etymology of classical Latin
+473_Dictionaries of classical Latin
+474_Not assigned or no longer used
+475_Grammar of classical Latin
+476_Not assigned or no longer used
+477_Old, postclassical, Vulgar Latin
+478_Classical Latin usage (Prescriptive linguistics)
+479_Other Italic languages
+48_Classical & modern Greek languages
+480_Classical Greek & related Hellenic languages
+481_Writing systems, phonology, phonetics of classical Greek
+482_Etymology of classical Greek
+483_Dictionaries of classical Greek
+484_Not assigned or no longer used
+485_Grammar of classical Greek
+486_Not assigned or no longer used
+487_Preclassical & postclassical Greek
+488_Classical Greek usage (Prescriptive linguistics)
+489_Other Hellenic languages
+49_Other languages
+490_Other languages
+491_East Indo-European & Celtic languages
+492_Afro-Asiatic languages
+493_Non-Semitic Afro-Asiatic languages
+494_Altic, Uralic, Hyperborean, Dravidian languages, miscellaneous languages of south Asia
+495_Languages of East & Southeast Asia
+496_African languages
+497_North American native languages
+498_South American native languages
+499_Non-Austronesian languages of Oceania, Austronesian languages, miscellaneous languages
+5_Science
+50_Science
+500_Natural sciences & mathematics
+501_Philosophy & theory
+502_Miscellany
+503_Dictionaries, encyclopedias, concordances
+504_Not assigned or no longer used
+505_Serial publications
+506_Organizations & management
+507_Education, research, related topics
+508_Natural history
+509_History, geographic treatment, biography
+51_Mathematics
+510_Mathematics
+511_General principles of mathematics
+512_Algebra
+513_Arithmetic
+514_Topology
+515_Analysis
+516_Geometry
+517_Not assigned or no longer used
+518_Numerical analysis
+519_Probabilities & applied mathematics
+520_Astronomy
+52_Astronomy & allied sciences
+521_Celestial mechanics
+522_Techniques, procedures, apparatus, equipment, materials
+523_Specific celestial bodies & phenomena
+524_Not assigned or no longer used
+525_Earth (Astronomical geography)
+526_Mathematical geography
+527_Celestial navigation
+528_Ephemerides
+529_Chronology
+530_Physics
+53_Physics
+531_Classical mechanics
+532_Fluid mechanics
+533_Pneumatics (Gas mechanics)
+534_Sound & related vibrations
+535_Light & related radiation
+536_Heat
+537_Electricity & electronics
+538_Magnetism
+539_Modern physics
+54_Chemistry
+540_Chemistry & allied sciences
+541_Physical chemistry
+542_Techniques, procedures, apparatus, equipment, materials
+543_Analytical chemistry
+544_No longer used-formerly Qualitative analysis
+545_No longer used-formerly Quantitative analysis
+546_Inorganic chemistry
+547_Organic chemistry
+548_Crystallography
+549_Mineralogy
+55_Earth sciences & geology
+550_Earth sciences
+551_Geology, hydrology, meteorology
+552_Petrology
+553_Economic geology
+554_Earth sciences of Europe
+555_Earth sciences of Asia
+556_Earth sciences of Africa
+557_Earth sciences of North America
+558_Earth sciences of South America
+559_Earth sciences of Australasia, Pacific Ocean islands, Atlantic Ocean islands, Arctic islands, Antarctica, extraterrestrial worlds
+56_Fossils & prehistoric life
+560_Paleontology
+561_Paleobotany; fossil microorganisms
+562_Fossil invertebrates
+563_Miscellaneous fossil marine & seashore invertebrates
+564_Fossil Mollusca & Molluscoidea
+565_Fossil Arthropoda
+566_Fossil Chordata
+567_Fossil cold-blooded vertebrates
+568_Fossil Aves (birds)
+569_Fossil Mammalia
+57_Biology
+570_Biology
+571_Physiology & related subjects
+572_Biochemistry
+573_Specific physiological systems in animals, regional histology & physiology in animals
+574_Not assigned or no longer used
+575_Specific parts of & physiological systems in plants
+576_Genetics and evolution
+577_Ecology
+578_Natural history of organisms & related subjects
+579_Natural history of microorganisms, fungi, algae
+58_Plants
+580_Plants
+581_Specific topics in natural history of plants
+582_Plants noted for specific vegetative characteristics and flowers
+583_Magnoliopsida (Dicotyledones)
+584_Liliopsida (Monocotyledones)
+585_Pinophyta (Gymnosperms)
+586_Cryptogamia (Seedless plants)
+587_Pteridophyta
+588_Bryophyta
+589_No longer used-formerly Forestry
+59_Animals (Zoology)
+590_Animals
+591_Specific topics in natural history of animals
+592_Invertebrates
+593_Miscellaneous marine & seashore invertebrates
+594_Mollusca & Molluscoidea
+595_Arthropoda
+596_Chordata
+597_Cold-blooded vertebrates
+598_Aves (Birds)
+599_Mammalia (Mammals)
+6_Technology
+60_Technology
+600_Technology (Applied sciences)
+601_Philosophy & theory
+602_Miscellany
+603_Dictionaries, encyclopedias, concordances
+604_Technical drawing, hazardous materials technology; groups of people
+605_Serial publications
+606_Organizations
+607_Education, research, related topics
+608_Patents
+609_History, geographic treatment, biography
+61_Medicine & health
+610_Medicine & health
+610.3_Medical encyclopedias
+610.6_Medical organizations & professions
+610.72_Medical research
+610.9_Geography and history of medicine
+611_Human anatomy, cytology, histology
+611.2_Respiratory (lung, respiratory system)
+611.3_Gastrointestinal (dental anatomy)
+611.6_Genitourinary (genital system)
+611.7_Musculoskeletal (seed coat)
+611.8_Anatomy of the sense organs and nervous system
+611.82_Anatomy of the brain
+611.9_Topographic anatomy (back)
+612_Human physiology
+613_Personal health & safety
+613.023_Professions hygiene and health
+613.1_Role of the natural environment
+613.2_Diet (food hygiene, nutrition, diet, nutritional value of food and beverages)
+613.4_Cleanliness Care (hygiene and personal cleanliness, personal care)
+613.5_Role of unnatural environment (housing, housing, temperature)
+613.6_Hygiene in the business (industrial hygiene)
+613.66_Self Defense
+613.7_Condition physique (bodybuilding, fitness, forme physique)
+613.7046_Hatha yoga, yoga physique
+613.71_Exercising, sports (aerobics, sauna, appearance surveillance and physical form)
+613.79_Relaxation, sleep
+614_Forensic medicine; incidence of injuries, wounds, disease; public preventive medicine
+615_Pharmacology and therapeutics
+616_Diseases
+617_Surgery, regional medicine, dentistry, ophthalmology, otology, audiology
+618_Gynecology, obstetrics, pediatrics, geriatrics
+619_No longer used-formerly Experimental medicine
+62_Engineering
+620_Engineering & Applied operations
+621_Applied physics
+622_Mining & related operations
+623_Military & nautical engineering
+624_Civil engineering
+625_Engineering of railroads, roads
+626_Not assigned or no longer used
+627_Hydraulic engineering
+628_Sanitary engineering
+629_Other branches of engineering
+63_Agriculture
+630_Agriculture & related technologies
+631_Specific techniques; apparatus, equipment, materials
+632_Plant injuries, diseases, pests
+633_Field & plantation crops
+634_Orchards, fruits, forestry
+635_Garden crops (Horticulture)
+636_Animal husbandry
+637_Processing dairy & related products
+638_Insect culture
+639_Hunting, fishing, conservation, related technologies
+64_Home & family management
+640_Home & family management
+641_Food & drink
+642_Meals & table service
+643_Housing & household equipment
+644_Household utilities
+645_Household furnishings
+646_Sewing, clothing, management of personal and family life
+647_Management of public households (Institutional housekeeping)
+648_Housekeeping
+649_Child rearing; home care of people with disabilities & illnesses
+65_Management & public relations
+650_Management & auxiliary services
+651_Office services
+652_Processes of written communication
+653_Shorthand
+657_Accounting
+658_General management
+659_Advertising & public relations
+66_Chemical engineering
+660_Chemical engineering & related technologies
+661_Technology of industrial chemicals
+662_Technology of explosives, fuels, related products
+663_Beverage technology
+664_Food technology
+665_Technology of industrial oils, fats, waxes, gases
+666_Ceramic & allied technologies
+667_Cleaning, color, coating, related technologies
+668_Technology of other organic products
+669_Metallurgy
+67_Manufacturing
+670_Manufacturing
+671_Metalworking processes & primary metal products
+672_Iron, steel, other iron alloys
+673_Nonferrous metals
+674_Lumber processing, wood products, cork
+675_Leather & fur processing
+676_Pulp & paper technology
+677_Textiles
+678_Elastomers & elastomer products
+679_Other products of specific kinds of materials
+68_Manufacture for specific uses
+680_Manufacture of products for specific uses
+681_Precision instruments & other devices
+682_Small forge work (Blacksmithing)
+683_Hardware & household appliances
+684_Furnishings & home workshops
+685_Leather & fur goods, & related products
+686_Printing & related activities
+687_Clothing & accessories
+688_Other final products, & packaging technology
+689_Not assigned or no longer used
+69_Construction of buildings
+690_Construction of buildings
+691_Building materials
+692_Auxiliary construction practices
+693_Construction in specific types of materials & for specific purposes
+694_Wood construction
+695_Roof covering
+696_Utilities
+697_Heating, ventilating, air-conditioning engineering
+698_Detail finishing
+699_Not assigned or no longer used
+7_Arts & recreation
+70_Arts
+700_The Arts
+701_Philosophy & theory of fine & decorative arts
+702_Miscellany of fine & decorative arts
+703_Dictionaries, encyclopedias, concordances of fine & decorative arts
+704_Special topics in fine & decorative arts
+705_Serial publications of fine & decorative arts
+706_Organizations & management of fine & decorative arts
+707_Education, research, related topics of fine & decorative arts
+708_Galleries, museums, private collections of fine & decorative arts
+709_History, geographic treatment, biography
+71_Area planning & landscape architecture
+710_Area planning & landscape architecture
+711_Area planning (Civic art)
+712_Landscape architecture (Landscape design)
+713_Landscape architecture of trafficways
+714_Water features in landscape architecture
+715_Woody plants in landscape architecture
+716_Herbaceous plants in landscape architecture
+717_Structures in landscape architecture
+718_Landscape design of cemeteries
+719_Natural landscapes
+72_Architecture
+720_Architecture
+721_Architectural materials & structural elements
+722_Architecture from earliest times to ca. 300
+723_Architecture from ca. 300 to 1399
+724_Architecture from 1400
+725_Public structures
+726_Buildings for religious & related purposes
+727_Buildings for educational & research purposes
+728_Residential & related buildings
+729_Design & decoration of structures & accessories
+73_Sculpture, ceramics, & metalwork
+730_Sculpture & related arts
+731_Processes, forms, subjects of sculpture
+732_Sculpture from earliest times to ca. 500, sculpture of nonliterate peoples
+733_Greek, Etruscan, Roman sculpture
+734_Sculpture from ca. 500 to 1399
+735_Sculpture from 1400
+736_Carving & carvings
+737_Numismatics & sigillography
+738_Ceramic arts
+739_Art metalwork
+74_Graphic arts & decorative arts
+740_Graphic arts
+741_Drawing & drawings
+742_Perspective in drawing
+743_Drawing & drawings by subject
+744_Not assigned or no longer used
+745_Decorative arts
+746_Textile arts
+747_Interior decoration
+748_Glass
+749_Furniture & accessories
+75_Painting
+750_Painting & paintings
+751_Techniques, procedures, apparatus, equipment, materials, forms
+752_Color
+753_Symbolism, allegory, mythology, legend
+754_Genre paintings
+755_Religion
+756_Not assigned or no longer used
+757_Human figures
+758_Nature, architectural subjects & cityscapes, other specific subjects
+759_History, geographic treatment, biography
+76_Printmaking & prints
+760_Printmaking & prints
+761_Relief processes (Block printing)
+762_Not assigned or no longer used
+763_Lithographic processes (Planographic processes)
+764_Chromolithography & serigraphy
+765_Metal engraving
+766_Mezzotinting, aquatinting, & related processes
+767_Etching & drypoint
+768_Not assigned or no longer used
+769_Prints
+77_Photography, computer art, film, video
+770_Photography, computer art, cinematography, videography
+771_Techniques, procedures, apparatus, equipment, materials
+772_Metallic salt processes
+773_Pigment processes of printing
+774_No longer used-formerly Holography
+775_No longer used-formerly Digital photography
+776_Computer art (Digital art)
+777_Cinematography & Videography
+778_Specific fields & special kinds of photography
+779_Photographic images
+78_Music
+780_Music
+781_General principles & musical forms
+782_Vocal music
+783_Music for single voices
+784_Instruments & Instrumental ensembles & their music
+785_Ensembles with only one instrument per part
+786_Keyboard, mechanical, electrophonic, percussion instruments
+787_Stringed instruments (Chordophones)
+788_Wind instruments (Aerophones)
+789_Not assigned or no longer used
+79_Sports, games & entertainment
+790_Recreational & performing arts
+791_Public performances
+792_Stage presentations
+793_Indoor games & amusements
+794_Indoor games of skill
+795_Games of chance
+796_Athletic & outdoor sports & games
+797_Aquatic & air sports
+798_Equestrian sports & animal racing
+799_Fishing, hunting, shooting
+8_Literature
+80_Literature, rhetoric & criticism
+800_Literature (Belles-lettres) & rhetoric
+801_Philosophy & theory
+802_Miscellany
+803_Dictionaries, encyclopedias, concordances
+804_Not assigned or no longer used
+805_Serial publications
+806_Organizations & management
+807_Education, research, related topics
+808_Rhetoric & collections of literary texts from more than two literatures
+809_History, description, critical appraisal of more than two literatures
+81_American literature in English
+810_American literature in English
+811_American poetry in English
+812_American drama in English
+813_American fiction in English
+814_American essays in English
+815_American speeches in English
+816_American letters in English
+817_American humor & satire in English
+818_American miscellaneous writings in English
+819_No longer used-formerly Puzzle activities
+82_English & Old English literatures
+820_English & Old English (Anglo-Saxon) literatures
+821_English Poetry
+822_English drama
+823_English fiction
+824_English essays
+825_English speeches
+826_English letters
+827_English humor & satire
+828_English miscellaneous writings
+829_Old English (Anglo-Saxon) literature
+83_German & related literatures
+830_German literature & literatures of related languages
+831_German poetry
+832_German drama
+833_German fiction
+834_German essays
+835_German speeches
+836_German letters
+837_German humor & satire
+838_German miscellaneous writings
+839_Other Germanic literatures
+84_French & related literatures
+840_French literature & literatures of related Romance languages
+841_French poetry
+842_French drama
+843_French fiction
+844_French essays
+845_French speeches
+846_French letters
+847_French humor & satire
+848_French miscellaneous writings
+849_Occitan, Catalan, Franco-Provençal literatures
+85_Italian, Romanian, & related literatures
+850_Literatures of Italian, Dalmatian, Romanian, Rhaetian, Sardinian, Corsican languages
+851_Italian poetry
+852_Italian drama
+853_Italian fiction
+854_Italian essays
+855_Italian speeches
+856_Italian letters
+857_Italian humor & satire
+858_Italian miscellaneous writings
+859_Literatures of Romanian, Rhaetian, Sardinian, Corsican languages
+86_Spanish, Portuguese, Galician literatures
+860_Literatures of Spanish, Portuguese, Galician languages
+861_Spanish poetry
+862_Spanish drama
+863_Spanish fiction
+864_Spanish essays
+865_Spanish speeches
+866_Spanish letters
+867_Spanish humor & satire
+868_Spanish miscellaneous writings
+869_Literatures of Portuguese & Galician languages
+87_Latin & Italic literatures
+870_Latin literature & literatures of related Italic languages
+871_Latin poetry
+872_Latin dramatic poetry & drama
+873_Latin epic poetry & fiction
+874_Latin lyric poetry
+875_Latin speeches
+876_Latin letters
+877_Latin humor & satire
+878_Latin miscellaneous writings
+879_Literatures of other Italic languages
+88_Classical & modern Greek literatures
+880_Classical Greek literature & literatures of related Hellenic languages
+881_Classical Greek poetry
+882_Classical Greek drama
+883_Classical Greek epic poetry & fiction
+884_Classical Greek lyric poetry
+885_Classical Greek speeches
+886_Classical Greek letters
+887_Classical Greek humor & satire
+888_Classical Greek miscellaneous writings
+889_Modern Greek literature
+89_Other literatures
+890_Literatures of other specific languages and language families
+891_East Indo-European & Celtic literatures
+892_Afro-Asiatic literatures
+893_Non-Semitic Afro-Asiatic literatures
+894_Literatures of Altaic, Uralic, Hyperborean, Dravidian languages; literatures of miscellaneous languages of Southeast Asia
+895_Literatures of East & Southeast Asia
+896_African literatures
+897_Literatures of North American native languages
+898_Literatures of South American native languages
+899_Literatures of non-Austronesian languages of Oceania, of Austronesian languages, of miscellaneous languages
+9_History & geography
+90_History
+900_History, geography, & auxiliary disciplines
+901_Philosophy & theory of history
+902_Miscellany of history
+903_Dictionaries, encyclopedias, concordances of history
+904_Collected accounts of events
+905_Serial publications of history
+906_Organizations & management of history
+907_Education, research, related topics of history
+908_History with respect to groups of people
+909_World history
+91_Geography & travel
+910_Geography & travel
+911_Historical geography
+912_Graphic representations of surface of earth and of extraterrestrial worlds
+913_Geography of & travel in ancient world
+914_Geography of & travel in Europe
+915_Geography of & travel in Asia
+916_Geography of & travel in Africa
+917_Geography of & travel in North America
+918_Geography of & travel in South America
+919_Geography of & travel in Australasia, Pacific Ocean islands, Atlantic Ocean islands, Arctic islands, Antarctica, & on extraterrestrial worlds
+92_Biography & genealogy
+920_Biography, genealogy, insignia
+921-928_This range is reserved as an optional location for biographies, which are shelved alphabetically by subject's last name.
+929_Genealogy, names, insignia
+93_History of ancient world (to ca. 499)
+930_History of ancient world to ca. 499
+931_China to 420
+932_Egypt to 640
+933_Palestine to 70
+934_South Asia to 647
+935_Mesopotamia to 637 & Iranian Plateau to 637
+936_Europe north & west of Italian Peninsula to ca. 499
+937_Italian Peninsula to 476 & adjacent territories to 476
+938_Greece to 323
+939_Other parts of ancient world
+94_History of Europe
+940_History of Europe
+941_British Isles
+942_England & Wales
+943_Germany & neighboring central European countries
+944_France & Monaco
+945_Italy, San Marino, Vatican City, Malta
+946_Spain, Andorra, Gibraltar, Portugal
+947_Russia & neighboring east European countries
+948_Scandinavia
+949_Other parts of Europe
+95_History of Asia
+950_History of Asia
+951_China & adjacent areas
+952_Japan
+953_Arabian Peninsula & adjacent areas
+954_India & neighboring south Asian countries;
+955_Iran
+956_Middle East (Near East)
+957_Siberia (Asiatic Russia)
+958_Central Asia
+959_Southeast Asia
+96_History of Africa
+960_History of Africa
+961_Tunisia & Libya
+962_Egypt, Sudan, South Sudan
+963_Ethiopia & Eritrea
+964_Morocco, Ceuta, Melilla Western Sahara, Canary Islands
+965_Algeria
+966_West Africa & offshore islands
+967_Central Africa & offshore islands
+968_Republic of South Africa & neighboring southern African countries
+969_South Indian Ocean islands
+97_History of North America
+970_History of North America
+971_Canada
+972_Mexico, Central America, West Indies, Bermuda
+973_United States
+974_Northeastern United States (New England & Middle Atlantic states)
+975_Southeastern United States (South Atlantic states)
+976_South central United States
+977_North central United States
+978_Western United States
+979_Great Basin & Pacific Slope region of United States
+98_History of South America
+980_History of South America
+981_Brazil
+982_Argentina
+983_Chile
+984_Bolivia
+985_Peru
+986_Colombia & Ecuador
+987_Venezuela
+988_Guiana
+989_Paraguay & Uruguay
+99_History of other areas
+990_History of Australasia, Pacific Ocean islands, Atlantic Ocean islands, Arctic islands, Antarctica, extraterrestrial worlds
+993_New Zealand
+994_Australia
+995_New Guinea & neighboring countries of Melanesia
+996_Polynesia & other Pacific Ocean islands
+997_Atlantic Ocean islands
+998_Arctic islands & Antarctica
+999_Extraterrestrial worlds
